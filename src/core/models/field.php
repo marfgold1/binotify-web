@@ -8,6 +8,18 @@ use Attribute, PDO;
 
 #[Attribute]
 class Field {
+    const C_NULLABLE = 'nullable';
+    const C_AUTO_INCREMENT = 'autoIncrement';
+    const C_PRIMARY = 'primary';
+    const C_UNIQUE = 'unique';
+    const C_DEFAULT = 'default';
+    const C_CHECK = 'check';
+
+    const T_FIELD = 'field';
+    const T_ATTR = 'attributes';
+
+    const O_LENGTH = 'length';
+
     public string $name;
     public int $type;
     protected string $sqltype="VARCHAR(255)";
@@ -19,10 +31,10 @@ class Field {
         $this->opts = $opts;
         switch ($type) {
             case PDO::PARAM_INT:
-                $this->sqltype = "INT(" . ($opts['length'] ?? 11) . ")";
+                $this->sqltype = "INT(" . ($opts[Field::O_LENGTH] ?? 11) . ")";
                 break;
             case PDO::PARAM_STR:
-                $this->sqltype = "VARCHAR(" . ($opts['length'] ?? 255) . ")";
+                $this->sqltype = "VARCHAR(" . ($opts[Field::O_LENGTH] ?? 255) . ")";
                 break;
             case PDO::PARAM_BOOL:
                 $this->sqltype = "BOOLEAN";
@@ -41,22 +53,26 @@ class Field {
         }
     }
 
-    public function __toString()
-    {
+    public function __toString() {
         return $this->name . ' ' . $this->sqltype . (
-            $this->nullable ? ' NULL' : ' NOT NULL'
+            $this->{Field::C_NULLABLE} === false ? ' NOT NULL' : ' NULL'
         ) . (
-            $this->autoIncrement ? ' AUTO_INCREMENT' : ''
+            $this->{Field::C_AUTO_INCREMENT} === true ? ' AUTO_INCREMENT' : ''
         ) . (
-            $this->default ? ' DEFAULT ' . $this->default : ''
+            $this->{Field::C_DEFAULT} !== null ? ' DEFAULT ' . (
+                is_string($this->{Field::C_DEFAULT}) ?
+                    '\'' . $this->{Field::C_DEFAULT} . '\''
+                    : var_export($this->{Field::C_DEFAULT}, true)
+            ) : ''
+        ) . (
+            $this->{Field::C_UNIQUE} === true ? ' UNIQUE' : ''
+        ) . (
+            is_string($this->{Field::C_CHECK}) ? ' CHECK (' . $this->{Field::C_CHECK} . ')' : ''
         );
     }
 }
 
 interface FieldProperty {}
-
-#[Attribute]
-class PrimaryKey implements FieldProperty {}
 
 #[Attribute]
 class ForeignKey implements FieldProperty {
@@ -66,6 +82,15 @@ class ForeignKey implements FieldProperty {
     public function __construct(string $refModel, string $refColumn) {
         $this->refModel = $refModel;
         $this->refColumn = $refColumn;
+    }
+}
+
+#[Attribute]
+class Setter implements FieldProperty {
+    public string $methodName;
+
+    public function __construct(string $methodName) {
+        $this->methodName = $methodName;
     }
 }
 ?>

@@ -13,15 +13,24 @@ use PDOStatement;
 
 class ModelCache {
     public array $_fields = [];
-    public array $_fieldKeys = [];
-    public array $_reqFields = [];
     public array $_primaryKeys = [];
     public array $_foreignKeys = [];
     public bool $_isInit = false;
-    public string $_qSetVal = "";
     public string $_qCondPK = "";
-    public string $_qReqBinds = "";
-    public string $_qReqFields = "";
+
+    public function getFieldsWithAttr(string $filter, bool $map=false) : array {
+        $res = $this->getFields(fn($_, $a) => in_array($filter, array_keys($a)));
+        if ($map) $res = array_map(fn($a) => $a[Field::T_ATTR][$filter], $res);
+        return $res;
+    }
+
+    public function getFieldsWithOpt(string $filter, mixed $val=null) : array {
+        return $this->getFields(fn($f, $_) => $f->$filter !== null && ($val == null || $f->$filter == $val));
+    }
+
+    public function getFields(callable $callback) : array {
+        return array_filter($this->_fields, fn($f) => $callback($f[Field::T_FIELD], $f[Field::T_ATTR]));
+    }
 
     public function __construct(string $cls) {
         $class = new ReflectionClass($cls);
@@ -33,41 +42,27 @@ class ModelCache {
                 foreach ($prop->getAttributes() as $fprop) {
                     $impl = class_implements($fprop->getName(), false);
                     if (in_array(FieldProperty::class, $impl)) {
-                        if ($fprop->getName() == PrimaryKey::class) {
-                            $this->_primaryKeys[] = $key;
-                        } else if ($fprop->getName() == ForeignKey::class) {
-                            $this->_foreignKeys[$key] = $fprop->newInstance();
-                        }
+                        $fieldprops[$fprop->getName()] = $fprop->newInstance();
                     }
                 }
                 $this->_fields[$key] = [
-                    'field' => $attributes[0]->newInstance(),
-                    'attributes' => $fieldprops
+                    Field::T_FIELD => $attributes[0]->newInstance(),
+                    Field::T_ATTR => $fieldprops
                 ];
-                $this->_fields[$key]['field']->name = $key;
+                $this->_fields[$key][Field::T_FIELD]->name = $key;
             }
         }
         // Cache models
         $this->_fieldKeys = array_keys($this->_fields);
-        $asstr = fn($pk) => "`$pk` = ?";
-        $this->_qCondPK = implode(" AND ", array_map($asstr, $this->_primaryKeys));
-        $this->_qSetVal = implode(", ", array_map($asstr, $this->_fieldKeys));
-        $this->_reqFields = array_keys(array_filter(
-            $this->_fields,
-            fn($f) =>
-                !($f['field']->nullable ?? true) &&
-                !($f['field']->autoIncrement ?? false) &&
-                $f['field']->default == null
-        ));
-        $this->_qReqBinds = implode(", ", array_map(fn() => "?", $this->_reqFields));
-        $this->_qReqFields = implode(", ", $this->_reqFields);
+        $this->_primaryKeys = array_keys($this->getFieldsWithOpt(Field::C_PRIMARY, true));
+        $this->_foreignKeys = $this->getFieldsWithAttr(ForeignKey::class, true);
+        $this->_qCondPK = implode(" AND ", array_map(fn($pk) => "`$pk` = ?", $this->_primaryKeys));
     }
 }
 
 abstract class Model {
     protected bool $isPersisted = false;
     protected bool $isDirty = true;
-    protected array $_optDirtyFields = [];
 
     protected static string $table = '';
     public static array $_models = [];
@@ -105,13 +100,14 @@ abstract class Model {
         static::$_models[static::class] = new ModelCache(static::class);
         # Cache database and create table if not exist
         static::$db = Database::get();
-        $foreignKeys = static::getCache('_foreignKeys');
-        $fields = static::getCache('_fields');
-        $primaryKeys = static::getCache('_primaryKeys');
+        $c = static::getCache();
+        $foreignKeys = $c->_foreignKeys;
+        $fields = $c->_fields;
+        $primaryKeys = $c->_primaryKeys;
         $sqlCreate = "CREATE TABLE IF NOT EXISTS `" . static::$table . "` (" .
-            implode(", ", array_map(fn($f) => $f['field'], $fields)) .
-            (count($primaryKeys) > 0 ? ', PRIMARY KEY (' . implode(", ", $primaryKeys) . ')' : '') .
-            implode('', array_map(
+            implode(", ", array_map(fn($f) => $f[Field::T_FIELD], $fields)) .  // field definitions
+            (count($primaryKeys) > 0 ? ', PRIMARY KEY (' . implode(", ", $primaryKeys) . ')' : '') . // primary keys
+            implode('', array_map(  // foreign keys
                 fn($f) =>
                     ", FOREIGN KEY (`$f`) REFERENCES `" . $foreignKeys[$f]->refModel .
                     "`(`" . $foreignKeys[$f]->refColumn . "`)",
@@ -121,14 +117,15 @@ abstract class Model {
         static::$db->exec($sqlCreate);
     }
 
-    protected static function getCache(string $key) {
-        return static::$_models[static::class]->$key;
+    public static function getCache() : ModelCache {
+        return static::$_models[static::class];
     }
 
     public static function get(mixed $condPK) : ?object {
         // Usage: Model::get(1); or Model::get([1, 2]);
-        $primaryKeys = static::getCache('_primaryKeys');
-        $qCondPK = static::getCache('_qCondPK');
+        $c = static::getCache();
+        $primaryKeys = $c->_primaryKeys;
+        $qCondPK = $c->_qCondPK;
         if (!is_array($condPK)) {
             $condPK = [$condPK];
             if (count($condPK) != count($primaryKeys))
@@ -146,7 +143,7 @@ abstract class Model {
         // Usage: Model::find("name LIKE %?% AND age > ?", ['Anjay', 13], "ORDER BY name ASC");
         return static::fetch(
             'SELECT * FROM ' . static::$table . 
-                ' WHERE ' . implode(' ', array_filter([$cond, $opts])),
+                ' WHERE ' . implode(' ', array_filter([$cond, $opts])), // array_filter to remove empty cond or opts
             $params,
             true
         );
@@ -155,7 +152,7 @@ abstract class Model {
     public static function paginate(string $cond, array $params, string $opts=null, Pagination $paginate=null) : Pagination {
         // Usage: Model::paginate("name LIKE %?% AND age > ?", ['Anjay', 13], "ORDER BY name ASC", new Pagination(["limit" => 5, "page" => 2]));
         // DO NOT SET LIMIT IN THE $opts!!!
-        $paginate = $paginate ?? new Pagination(['limit' => 10, 'page' => 1]);
+        $paginate = $paginate ?? new Pagination([Pagination::LIMIT => 10, Pagination::PAGE => 1]);
         $sql = 'SELECT %s FROM . ' . static::$table . 
             ' WHERE ' . implode(' ', array_filter([$cond, $opts]));
         $models = static::fetch(
@@ -167,100 +164,110 @@ abstract class Model {
         $res = static::$db->prepare(sprintf($sql, 'COUNT(*)'));
         $res->execute($params);
         return new Pagination([
-            'limit' => $paginate->limit,
-            'page' => $paginate->page,
-            'total' => $res->rowCount(),
+            Pagination::LIMIT => $paginate->limit,
+            Pagination::PAGE => $paginate->page,
+            Pagination::TOTAL => $res->rowCount(),
         ], $models);
     }
 
     public function delete() : void {
-        $qCondPK = static::getCache('_qCondPK');
-        $primaryKeys = static::getCache('_primaryKeys');
+        $c = static::getCache();
         $stmt = static::$db->prepare(
             'DELETE' .
             ' FROM ' . static::$table .
-            ' WHERE ' . $qCondPK
+            ' WHERE ' . $c->_qCondPK
         );
-        $this->bind($stmt, $primaryKeys)->execute();
+        $this->bind($stmt, $c->_primaryKeys)->execute();
         $this->isPersisted = false;
         $this->isDirty = true;
     }
 
     public function save() : void {
-        $qSetVal = static::getCache('_qSetVal');
-        $qCondPK = static::getCache('_qCondPK');
-        $fieldKeys = static::getCache('_fieldKeys');
-        $primaryKeys = static::getCache('_primaryKeys');
-        $qReqFields = static::getCache('_qReqFields');
-        $qReqBinds = static::getCache('_qReqBinds');
-        $qReqFields = static::getCache('_qReqFields');
-        $reqFields = static::getCache('_reqFields');
+        $c = static::getCache();
+        $fieldKeys = array_keys($c->_fields);
         if ($this->isDirty) {
             if ($this->isPersisted) {
                 $stmt = static::$db->prepare(
                     'UPDATE ' . static::$table .
-                    ' SET ' . $qSetVal .
-                    ' WHERE ' . $qCondPK
+                    ' SET ' . implode(', ', array_map(fn($pk) => "`$pk` = ?", array_keys($c->_fields))) .
+                    ' WHERE ' . $c->_qCondPK
                 );
-                $this->bind($stmt, array_merge(
-                    $fieldKeys,
-                    $primaryKeys
-                ))->execute();
+                $this->bind($stmt, array_merge($fieldKeys, $c->_primaryKeys))->execute();
             } else {
+                $reqFields = array_keys($c->getFields(fn($f, $a) =>
+                    $this->{$f->name} || ($f->{Field::C_DEFAULT} === null &&
+                    !($f->{Field::C_NULLABLE} ?? true) && !($f->{Field::C_AUTO_INCREMENT} ?? false))
+                )); // var is set/not empty OR [default not set, not (nullable (or not set)), not autoIncrement (or not set)]
                 $stmt = static::$db->prepare(
-                    'INSERT INTO ' . static::$table . ' (' . $qReqFields .
-                    ') VALUES (' . $qReqBinds . ')'
+                    'INSERT INTO ' . static::$table . ' (' . implode(',', $reqFields) .
+                    ') VALUES (' . implode(',', array_fill(0, count($reqFields), '?')) . ')'
                 );
                 $this->bind($stmt, $reqFields)->execute();
+                // Repopulate model
+                $idf = $c->getFieldsWithOpt(Field::C_AUTO_INCREMENT, true); // lastInsertId
+                $idf_keys = array_keys($idf);
+                if ($idf && !in_array($idf[$idf_keys[0]][Field::T_FIELD]->name, $reqFields))
+                    $this->{$idf[$idf_keys[0]][Field::T_FIELD]->name} = intval(static::$db->lastInsertId());
+                $idf = $c->getFieldsWithOpt(Field::C_DEFAULT); // default field that was unset
+                foreach ($idf as $f)
+                    if (!in_array($f[Field::T_FIELD]->name, $reqFields))
+                        $this->{$f[Field::T_FIELD]->name} = $f[Field::T_FIELD]->{Field::C_DEFAULT};
                 $this->isPersisted = true;
             }
             $this->isDirty = false;
         }
     }
 
-    public function getValues(?array $keys=null) : array {
-        $keys = $keys ?? static::getCache('_fieldKeys');
-        $values = [];
-        foreach ($keys as $key) {
-            $values[] = $this->$key;
-        }
-        return $values;
+    protected function getValues(?array $keys=null) : array {
+        return array_map(fn($k) => $this->$k, $keys ?? static::getCache()->_fieldKeys);
     }
 
     public function set(array $map) : void {
-        foreach ($map as $key => $value) {
-            if (property_exists($this, $key))
-                if ($this->$key != $value)
-                    $this->$key = $value;
-        }
+        foreach ($map as $key => $value) $this->$key = $value;
     }
 
     protected function bind(?PDOStatement &$stmt, ?array $keys=null) : ?PDOStatement {
-        $fields = static::getCache('_fields');
-        $keys = $keys ?? static::getCache('_fieldKeys');
+        $fields = static::getCache()->_fields;
+        $keys = $keys ?? array_keys($fields);
         $values = $this->getValues($keys);
         $i = 1;
         foreach ($keys as $key) {
-            $stmt->bindParam($i, $values[$i - 1], $fields[$key]['field']->type);
+            $stmt->bindParam($i, $values[$i - 1], $fields[$key][Field::T_FIELD]->type);
             $i++;
         }
         return $stmt;
     }
 
-    public function __get(string $key) : mixed {
-        if (in_array($key, static::getCache('_fieldKeys'))) {
-            return $this->$key;
-        } else {
-            throw new \Exception("Property $key does not exist");
+    public function validate(array $validator) : array {
+        $errors = [];
+        $fields = static::getCache()->_fields;
+        foreach (array_keys($validator) as $key) {
+            $v = Validation::validate(
+                $validator[$key], // the validator options
+                $key, // the field name
+                $this->$key,  // the field value
+                $fields[$key] // field key
+            );
+            if ($v) $errors[$key] = $v;
         }
+        return $errors;
+    }
+
+    public function __get(string $key) : mixed {
+        if (in_array($key, static::getCache()->_fieldKeys)) return $this->$key;
+        else throw new \Exception("Property $key does not exist");
     }
 
     public function __set(string $key, mixed $value) : void {
-        if (in_array($key, static::getCache('_fieldKeys'))) {
-            $this->$key = $value;
+        $c = static::getCache();
+        $this->__get($key); // let throw except from get
+        if ($this->$key != $value) {
+            // Use setter if available
+            $setter = $c->_fields[$key][Field::T_ATTR];
+            if (in_array(Setter::class, array_keys($setter))) {
+                $this->{$setter[Setter::class]->methodName}($value);
+            } else $this->$key = $value;
             $this->isDirty = true;
-        } else {
-            throw new \Exception("Property $key does not exist");
         }
     }
 }
