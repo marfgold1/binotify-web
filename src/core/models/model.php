@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 namespace MusicApp\Core\Models;
 
 include_once __DIR__ . '/../database.php';
