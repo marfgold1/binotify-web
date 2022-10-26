@@ -11,6 +11,7 @@ class Redirect {
         function back() : Sessions {
             if (has(Sessions::LAST_URL)) {
                 header('Location: ' . get(Sessions::LAST_URL));
+                Sessions::rollback();
             } else {
                 header('Location: /');
             }
@@ -29,6 +30,8 @@ class Redirect {
 
         function send(string $filename) : Sessions {
             if(file_exists($filename)){
+                // Rollback sessions (prevent multiple download)
+                Sessions::rollback();
                 // Get mimetype of the file
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 header('Content-Type: ' . finfo_file($finfo, $filename));

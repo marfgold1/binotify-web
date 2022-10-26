@@ -6,6 +6,7 @@ class Sessions {
     const CURRENT_URL = 'current_url';
     const FLASH = 'flash';
     public static bool $autoReset = true;
+    private static string $rollbackLastUrl = '';
 
     public function __construct() {
         if (self::$autoReset) {
@@ -25,6 +26,20 @@ class Sessions {
 
     public function withErrors(mixed $data) {
         $this->with($data, 'errors');
+    }
+
+    public static function rollback() {
+        if (static::$rollbackLastUrl !== '') {
+            set(Sessions::CURRENT_URL, get(Sessions::LAST_URL));
+            set(Sessions::LAST_URL, static::$rollbackLastUrl);
+        } else {
+            if (has(Sessions::LAST_URL)) {
+                set(Sessions::CURRENT_URL, get(Sessions::LAST_URL));
+                remove(Sessions::LAST_URL);
+            } else {
+                remove(Sessions::CURRENT_URL);
+            }
+        }
     }
 
     public static function init() {
@@ -61,6 +76,8 @@ class Sessions {
         }
 
         if (has(self::CURRENT_URL) && get(self::CURRENT_URL) !== $_SERVER['REQUEST_URI']) {
+            if (has(self::LAST_URL))
+                static::$rollbackLastUrl = get(self::LAST_URL);
             set(self::LAST_URL, get(self::CURRENT_URL));
         }
         set(self::CURRENT_URL, $_SERVER['REQUEST_URI']);
