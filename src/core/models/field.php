@@ -77,4 +77,13 @@ class ForeignKey implements FieldProperty {
         $this->refColumn = $refColumn;
     }
 }
+
+#[Attribute]
+class Setter implements FieldProperty {
+    public string $methodName;
+
+    public function __construct(string $methodName) {
+        $this->methodName = $methodName;
+    }
+}
 ?>
