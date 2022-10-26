@@ -3,6 +3,10 @@ declare(strict_types=1);
 namespace MusicApp\Core\Models;
 
 class Pagination {
+    const LIMIT = 'limit';
+    const PAGE = 'page';
+    const TOTAL = 'total';
+
     public readonly int $page;
     public readonly int $offset;
     public readonly int $nextOffset;
@@ -13,20 +17,20 @@ class Pagination {
     public readonly array $models;
 
     public function __construct(array $opts, array $models=[]) {
-        $this->limit = $opts['limit'];
-        $this->total = $opts['total'] ?? 0;
+        $this->limit = $opts[Pagination::LIMIT];
+        $this->total = $opts[Pagination::TOTAL] ?? 0;
         $this->lastPage = intval(ceil($this->total / $this->limit));
-        $this->page = intval(max(1, min($this->lastPage, $opts['page'])));
+        $this->page = intval(max(1, min($this->lastPage, $opts[Pagination::PAGE])));
         $this->offset = ($this->page - 1) * $this->limit;
         $this->nextOffset = $this->offset + $this->limit;
         $this->count = count($models);
         $this->models = $models;
     }
 
-    protected function str($page=null, $limit=null) : string {
+    protected function str($page=null) : string {
         return http_build_query([
-            'page' => $page ?? $this->page,
-            'limit' => $limit ?? $this->limit,
+            Pagination::PAGE => $page ?? $this->page,
+            Pagination::LIMIT => $this->limit,
         ]);
     }
 
@@ -47,10 +51,7 @@ class Pagination {
     }
 
     public function prev() : string {
-        return http_build_query([
-            "page" => $this->page - 1,
-            "limit" => $this->limit
-        ]);
+        return $this->str($this->page - 1);
     }
 }
 ?>
