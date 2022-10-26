@@ -4,6 +4,7 @@
 declare(strict_types=1);
 namespace MusicApp;
 
+use MusicApp\Core\Redirect;
 use MusicApp\Core\Route;
 use MusicApp\Core\Sessions;
 
@@ -19,9 +20,11 @@ spl_autoload_register(function ($class_name) {
 include_once __DIR__ . '/core/controller.php';
 include_once __DIR__ . '/core/models/model.php';
 include_once __DIR__ . '/core/route.php';
+include_once __DIR__ . '/core/redirect.php';
 include_once __DIR__ . '/core/sessions.php';
 include_once __DIR__ . '/router.php';
 
 Sessions::init();
+Redirect::init();
 Route::route();
 ?>
