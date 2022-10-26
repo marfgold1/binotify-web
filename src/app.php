@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MusicApp;
 
 use MusicApp\Core\Route;
+use MusicApp\Core\Sessions;
 
 spl_autoload_register(function ($class_name) {
     $incl_path = explode('\\', $class_name);
@@ -18,7 +19,9 @@ spl_autoload_register(function ($class_name) {
 include_once __DIR__ . '/core/controller.php';
 include_once __DIR__ . '/core/models/model.php';
 include_once __DIR__ . '/core/route.php';
+include_once __DIR__ . '/core/sessions.php';
 include_once __DIR__ . '/router.php';
 
+Sessions::init();
 Route::route();
 ?>
