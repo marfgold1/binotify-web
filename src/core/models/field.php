@@ -58,14 +58,21 @@ class Field {
             $this->{Field::C_NULLABLE} === false ? ' NOT NULL' : ' NULL'
         ) . (
             $this->{Field::C_AUTO_INCREMENT} === true ? ' AUTO_INCREMENT' : ''
+        ) . (
+            $this->{Field::C_DEFAULT} !== null ? ' DEFAULT ' . (
+                is_string($this->{Field::C_DEFAULT}) ?
+                    '\'' . $this->{Field::C_DEFAULT} . '\''
+                    : var_export($this->{Field::C_DEFAULT}, true)
+            ) : ''
+        ) . (
+            $this->{Field::C_UNIQUE} === true ? ' UNIQUE' : ''
+        ) . (
+            is_string($this->{Field::C_CHECK}) ? ' CHECK (' . $this->{Field::C_CHECK} . ')' : ''
         );
     }
 }
 
 interface FieldProperty {}
-
-#[Attribute]
-class PrimaryKey implements FieldProperty {}
 
 #[Attribute]
 class ForeignKey implements FieldProperty {
