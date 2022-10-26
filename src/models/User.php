@@ -1,6 +1,5 @@
 <?php
 namespace MusicApp\Models;
-include_once __DIR__ . '/../core/models/model.php';
 
 use MusicApp\Core\Models\Field;
 use MusicApp\Core\Models\Model;
@@ -31,4 +30,5 @@ class User extends Model {
     protected ?bool $isAdmin = null;
 }
 
+User::load();
 ?>

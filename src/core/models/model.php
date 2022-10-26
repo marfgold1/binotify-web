@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 namespace MusicApp\Core\Models;
 
 include_once __DIR__ . '/../database.php';
@@ -65,7 +64,7 @@ abstract class Model {
     protected bool $isDirty = true;
 
     protected static string $table = '';
-    public static array $_models = [];
+    protected static array $_models = [];
 
     protected static Database $db;
 
