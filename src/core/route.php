@@ -34,7 +34,7 @@ class RouteItem {
         }
     }
 
-    public function isMatch(array &$requestPath) {
+    public function isMatch(array $requestPath) {
         if (count($this->path) !== count($requestPath))
             return false;
         if ($this->method !== $_SERVER['REQUEST_METHOD'] && $this->method !== 'ANY')
