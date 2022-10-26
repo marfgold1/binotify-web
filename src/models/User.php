@@ -30,4 +30,5 @@ class User extends Model {
     protected ?bool $isAdmin = null;
 }
 
+User::load();
 ?>

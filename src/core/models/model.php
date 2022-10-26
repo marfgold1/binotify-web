@@ -64,7 +64,7 @@ abstract class Model {
     protected bool $isDirty = true;
 
     protected static string $table = '';
-    public static array $_models = [];
+    protected static array $_models = [];
 
     protected static Database $db;
 
