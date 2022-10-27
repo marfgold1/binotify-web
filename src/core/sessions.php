@@ -49,7 +49,7 @@ class Sessions {
             return isset($_SESSION[$key]);
         }
         function get(string $key) {
-            return $_SESSION[$key];
+            return $_SESSION[$key] ?? null;
         }
         function set(string $key, $value) {
             $_SESSION[$key] = $value;
@@ -58,7 +58,7 @@ class Sessions {
             unset($_SESSION[$key]);
         }
         function getFlash() {
-            return get('flash') ?? null;
+            return get('flash');
         }
         function hasErrors(string $key='') {
             if ($key === '') {
@@ -69,13 +69,16 @@ class Sessions {
         }
         function getErrors(string $key='') {
             if ($key === '') {
-                return get('errors') ?? null;
+                return get('errors');
             } else {
                 return get('errors')[$key] ?? null;
             }
         }
 
-        if (has(self::CURRENT_URL) && get(self::CURRENT_URL) !== $_SERVER['REQUEST_URI']) {
+        if (has(self::CURRENT_URL) && (
+            get(self::CURRENT_URL) !== $_SERVER['REQUEST_URI']
+            || $_SERVER['REQUEST_METHOD'] !== 'GET'
+        )) {
             if (has(self::LAST_URL))
                 static::$rollbackLastUrl = get(self::LAST_URL);
             set(self::LAST_URL, get(self::CURRENT_URL));

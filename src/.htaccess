@@ -1,3 +1,4 @@
 RewriteEngine on
 RewriteCond %{REQUEST_URI} !=/app.php
+RewriteCond %{REQUEST_URI} !/public/* [NC]
 RewriteRule ^(.*)$ /app.php [NC,L,QSA]
