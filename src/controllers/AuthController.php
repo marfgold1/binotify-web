@@ -96,6 +96,21 @@ class AuthController extends Controller {
         set('user', $user);
         route('home');
     }
+
+    public function logout() {
+        unset($_SESSION['user']);
+        route('home');
+    }
+
+    public function checkUsername($username) {
+        $users = User::find('username = ?', [$username], 'LIMIT 1');
+        echo $users ? 'false' : 'true';
+    }
+
+    public function checkEmail($email) {
+        $users = User::find('email = ?', [$email], 'LIMIT 1');
+        echo $users ? 'false' : 'true';
+    }
 }
 
 ?>
