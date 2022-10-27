@@ -20,8 +20,8 @@ class Validation {
 
     const ERROR_MESSAGE = [
         Validation::REGEX => 'Invalid format for field %s',
-        Validation::MIN => '%s is too short',
-        Validation::MAX => '%s is too long',
+        Validation::MIN => '%s is too short (less than %d)',
+        Validation::MAX => '%s is too long (more than %d)',
         Validation::REQUIRED => '%s is required',
         Validation::UNIQUE => '%s is already taken',
         Validation::FOREIGN => '%s is not exist in %s',
@@ -75,9 +75,9 @@ class Validation {
                     if (!is_string($value))
                         return sprintf(Validation::ERROR_MESSAGE[Validation::T_STRING], $fieldName);
                     if (in_array(Validation::MIN, $validators) && strlen($value) < $opts[Validation::MIN])
-                        return sprintf(Validation::ERROR_MESSAGE[Validation::MIN], $fieldName);
+                        return sprintf(Validation::ERROR_MESSAGE[Validation::MIN], $fieldName, $opts[Validation::MIN]);
                     if (in_array(Validation::MAX, $validators) && strlen($value) > $opts[Validation::MAX])
-                        return sprintf(Validation::ERROR_MESSAGE[Validation::MAX], $fieldName);
+                        return sprintf(Validation::ERROR_MESSAGE[Validation::MAX], $fieldName, $opts[Validation::MAX]);
                     if (in_array(Validation::REGEX, $validators) && !preg_match($opts[Validation::REGEX], $value))
                         return sprintf(Validation::ERROR_MESSAGE[Validation::REGEX], $fieldName);
                     break;
@@ -85,9 +85,9 @@ class Validation {
                     if (!is_int($field))
                         return sprintf(Validation::ERROR_MESSAGE[Validation::T_INT], $fieldName);
                     if (in_array(Validation::MIN, $validators) && $field < $opts[Validation::MIN])
-                        return sprintf(Validation::ERROR_MESSAGE[Validation::MIN], $fieldName);
+                        return sprintf(Validation::ERROR_MESSAGE[Validation::MIN], $fieldName, $opts[Validation::MIN]);
                     if (in_array(Validation::MAX, $validators) && $field > $opts[Validation::MAX])
-                        return sprintf(Validation::ERROR_MESSAGE[Validation::MAX], $fieldName);
+                        return sprintf(Validation::ERROR_MESSAGE[Validation::MAX], $fieldName, $opts[Validation::MAX]);
                     break;
                 case Validation::T_BOOL:
                     if (!is_bool($field))
