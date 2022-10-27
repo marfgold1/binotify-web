@@ -4,6 +4,7 @@ namespace MusicApp;
 
 use MusicApp\Controllers\AuthController;
 use MusicApp\Controllers\LaguController;
+use MusicApp\Controllers\AlbumController;
 use MusicApp\Core\Route;
 // ===================
 
