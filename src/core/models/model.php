@@ -149,10 +149,12 @@ abstract class Model implements JsonSerializable {
         );
     }
 
-    public static function paginate(string $cond, array $params, string $opts=null, Pagination $paginate=null) : Pagination {
+    public static function paginate(string $cond, array $params, string $opts=null, array $paginate=null) : Pagination {
         // Usage: Model::paginate("name LIKE %?% AND age > ?", ['Anjay', 13], "ORDER BY name ASC", new Pagination(["limit" => 5, "page" => 2]));
         // DO NOT SET LIMIT IN THE $opts!!!
-        $paginate = $paginate ?? new Pagination([Pagination::LIMIT => 10, Pagination::PAGE => 1]);
+        $paginate = $paginate ?? [Pagination::LIMIT => 10, Pagination::PAGE => 1];
+        $paginate = new Pagination($paginate);
+
         $sql = 'SELECT %s FROM ' . static::$table . 
             ' ' . implode(' ', array_filter([$cond ? 'WHERE ' . $cond : '', $opts]));
         $models = static::fetch(
@@ -166,7 +168,7 @@ abstract class Model implements JsonSerializable {
         return new Pagination([
             Pagination::LIMIT => $paginate->limit,
             Pagination::PAGE => $paginate->page,
-            Pagination::TOTAL => $res->rowCount(),
+            Pagination::TOTAL => intval($res->fetch()[0]),
         ], $models);
     }
 

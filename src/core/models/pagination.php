@@ -17,9 +17,13 @@ class Pagination {
 
     public function __construct(array $opts, array $models=[]) {
         $this->limit = $opts[Pagination::LIMIT];
-        $this->total = $opts[Pagination::TOTAL] ?? 0;
-        $this->lastPage = intval(ceil($this->total / $this->limit));
-        $this->page = intval(max(1, min($this->lastPage, $opts[Pagination::PAGE])));
+        $this->total = $opts[Pagination::TOTAL] ?? -1;
+        if ($this->total === -1) {
+            $this->page = intval($opts[Pagination::PAGE]);
+        } else {
+            $this->lastPage = intval(ceil($this->total / $this->limit));
+            $this->page = intval(max(1, min($this->lastPage, $opts[Pagination::PAGE])));
+        }
         $this->offset = ($this->page - 1) * $this->limit;
         $this->nextOffset = $this->offset + $this->limit;
         $this->count = count($models);
