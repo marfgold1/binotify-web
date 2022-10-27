@@ -9,8 +9,54 @@
             <script src="/public/js/duration_calc.js" crossorigin="anonymous" defer></script>
             <script src="/public/js/lagu-detail.js" crossorigin="anonymous" defer></script>
             <link rel="stylesheet" href="/public/css/lagu-detail.css">
+            <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+            <script src="https://kit.fontawesome.com/59322c14e3.js" crossorigin="anonymous"></script>
         </head>
         <body>
+            <!-- Sidebar start -->
+            <!-- 
+                User: home, search, daftar album, logout
+                admin: home, search, tambah lagu, tambah album, daftar album, logout
+                Non-user: home, search, login, register
+             -->
+            <div class="sidebar">
+                <h2>Binotify</h2>
+                <ul class="nav">
+                    <li>
+                    <a href="/home">
+                        <span>Home</span>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="#">
+                        <span>Search</span>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="/lagu/tambah">
+                        <span>Tambah Lagu</span>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="#">
+                        <span>Tambah Album</span>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="#">
+                        <span>Daftar Album</span>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="#">
+                        <span>Logout</span>
+                    </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sidebar end -->
+
             <!-- Song detail section start -->
             <div class="song-detail">
                 <div class="detail-cover">

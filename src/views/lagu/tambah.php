@@ -8,6 +8,49 @@
             <link rel="stylesheet" href="/public/css/lagu-tambah.css">
         </head>
         <body>
+            <!-- Sidebar start -->
+            <!-- 
+                User: home, search, daftar album, logout
+                admin: home, search, tambah lagu, tambah album, daftar album, logout
+                Non-user: home, search, login, register
+             -->
+             <div class="sidebar">
+                <h2>Binotify</h2>
+                <ul class="nav">
+                    <li>
+                    <a href="/home">
+                        <span>Home</span>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="#">
+                        <span>Search</span>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="/lagu/tambah">
+                        <span>Tambah Lagu</span>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="#">
+                        <span>Tambah Album</span>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="#">
+                        <span>Daftar Album</span>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="#">
+                        <span>Logout</span>
+                    </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sidebar end -->
             <div class="modal">
                 <div class="text">Tambah Lagu</div>
                 <form action="" method="post" enctype="multipart/form-data">
