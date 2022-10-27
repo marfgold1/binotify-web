@@ -43,7 +43,7 @@ class LaguController extends Controller {
     public function detail($id) {
         $song = Song::get($id);
         if ($song === null) {
-            // back()->withErrors(['user' => 'User not found']);
+            
         } else {
             view('lagu.detail', ['song' => $song])->with(['sess' => 'anjay']);
         }
@@ -53,9 +53,13 @@ class LaguController extends Controller {
     {
         $song = Song::get($id);
         if ($song === null) {
-            // back()->withErrors(['user' => 'User not found']);
+            
         } else {
             $song->delete();
+            unlink(__DIR__ . '/../public/audio/' . $song->audio_path);
+            unlink(__DIR__ . '/../public/image/' . $song->image_path);
+            echo "<script>alert('Berhasil menghapus lagu!'); window.location.href = '/';</script>";
+            route('home');
         }
     }
 
@@ -63,7 +67,7 @@ class LaguController extends Controller {
     {
         $song = Song::get($id);
         if ($song === null) {
-            // back()->withErrors(['user' => 'User not found']);
+            
         } else {
             // Pengecekan $_FILES
             $namaFileAudio = time() . $_FILES['audio_path']['name'];
