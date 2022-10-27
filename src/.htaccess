@@ -2,3 +2,6 @@ RewriteEngine on
 RewriteCond %{REQUEST_URI} !=/app.php
 RewriteCond %{REQUEST_URI} !/public/* [NC]
 RewriteRule ^(.*)$ /app.php [NC,L,QSA]
+
+php_value post_max_size 101M
+php_value upload_max_filesize 100M

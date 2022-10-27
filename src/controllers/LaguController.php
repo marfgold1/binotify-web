@@ -3,15 +3,45 @@ namespace MusicApp\Controllers;
 
 use MusicApp\Core\Controller;
 use MusicApp\Models\Song;
+use MusicApp\Models\User;
 
 use function MusicApp\Core\back;
-use function MusicApp\Core\send;
 use function MusicApp\Core\route;
+use function MusicApp\Core\send;
 use function MusicApp\Core\view;
 
-class DetailLaguController extends Controller {
-    public function index() {
-        send(__DIR__ . '/HomeController.php');
+class LaguController extends Controller {
+    public function tambahForm() {
+        view('lagu.tambah');
+    }
+
+    public function tambah(){
+        // Pengecekan $_FILES
+        $namaFileAudio = $_FILES['audio_path']['name'];
+        $namaFileImage = $_FILES['image_path']['name'];
+        $tmpAudio = $_FILES['audio_path']['tmp_name'];
+        $tmpImage = $_FILES['image_path']['tmp_name'];
+
+        // pindahkan file 
+        move_uploaded_file($tmpAudio, __DIR__ . '/../public/audio/' . $namaFileAudio);
+        move_uploaded_file($tmpImage, __DIR__ . '/../public/image/' . $namaFileImage);
+        
+        $song = new Song();
+        $song->judul = $_POST['judul'];
+        $song->penyanyi = $_POST['penyanyi'];
+        $song->tanggal_terbit = $_POST['tanggal_terbit'];
+        $song->genre = $_POST['genre'];
+        $song->duration = $_POST['duration'];
+        $song->audio_path = $namaFileAudio;
+        $song->image_path = $namaFileImage;
+
+        $song->save();
+        // Alert berhasil menambah lagu
+        echo "<script>alert('Berhasil menambah lagu!'); window.location.href = '/lagu/tambah';</script>";
+    }
+
+    public function detail() {
+        view('lagu.detail');
     }
 
     public function get($id) {
@@ -54,5 +84,4 @@ class DetailLaguController extends Controller {
 
 
 }
-
 ?>

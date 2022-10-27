@@ -7,8 +7,9 @@
                     <meta charset="utf-8">
                     <title>$title - MusicApp</title>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <script src="/public/input.js" crossorigin="anonymous" defer></script>
-                    <link rel="stylesheet" href="/public/style.css">
+                    <script src="/public/js/input.js" crossorigin="anonymous" defer></script>
+                    <script src="/public/js/duration_calc.js" crossorigin="anonymous" defer></script>
+                    <link rel="stylesheet" href="/public/css/style.css">
                 </head>
                 <body>
                     <div class="container fullh">

@@ -30,6 +30,6 @@ class Song extends Model {
     #[ForeignKey('album', 'album_id')]
     protected ?int $album_id = null; // Album_id int REFERENCES album(album_id)
 }
-
+Album::load();
 Song::load();
 ?>
