@@ -73,7 +73,8 @@ class Route {
     private static $tempPrefix = '';
 
     public static function route () {
-        $path = array_filter(explode('/', $_SERVER['REQUEST_URI']));
+        $path = strtok($_SERVER['REQUEST_URI'], '?');
+        $path = array_filter(explode('/', $path));
         $isMatched = false;
         foreach (static::$routerList as $router) {
             if ($router->isMatch($path)) {

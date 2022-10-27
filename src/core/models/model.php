@@ -159,7 +159,7 @@ abstract class Model implements JsonSerializable {
             ' ' . implode(' ', array_filter([$cond ? 'WHERE ' . $cond : '', $opts]));
         $models = static::fetch(
             sprintf($sql, '*') .
-            ' LIMIT ' . $paginate->offset . ', ' . $paginate->nextOffset,
+            ' LIMIT ' . $paginate->offset . ', ' . $paginate->limit,
             $params,
             true
         );
