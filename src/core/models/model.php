@@ -142,7 +142,7 @@ abstract class Model {
         // Usage: Model::find("name LIKE %?% AND age > ?", ['Anjay', 13], "ORDER BY name ASC");
         return static::fetch(
             'SELECT * FROM ' . static::$table . 
-                ' WHERE ' . implode(' ', array_filter([$cond, $opts])), // array_filter to remove empty cond or opts
+                ' ' . implode(' ', array_filter([$cond ? 'WHERE ' . $cond : '', $opts])), // array_filter to remove empty cond or opts
             $params,
             true
         );
@@ -152,8 +152,8 @@ abstract class Model {
         // Usage: Model::paginate("name LIKE %?% AND age > ?", ['Anjay', 13], "ORDER BY name ASC", new Pagination(["limit" => 5, "page" => 2]));
         // DO NOT SET LIMIT IN THE $opts!!!
         $paginate = $paginate ?? new Pagination([Pagination::LIMIT => 10, Pagination::PAGE => 1]);
-        $sql = 'SELECT %s FROM . ' . static::$table . 
-            ' WHERE ' . implode(' ', array_filter([$cond, $opts]));
+        $sql = 'SELECT %s FROM ' . static::$table . 
+            ' ' . implode(' ', array_filter([$cond ? 'WHERE ' . $cond : '', $opts]));
         $models = static::fetch(
             sprintf($sql, '*') .
             ' LIMIT ' . $paginate->offset . ', ' . $paginate->nextOffset,
