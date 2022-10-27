@@ -19,6 +19,8 @@ class User extends Model {
 
     #[Field([Field::C_AUTO_INCREMENT => true, Field::C_NULLABLE => false, Field::C_PRIMARY => true], PDO::PARAM_INT)]
     protected ?int $user_id = null;
+    #[Field([Field::C_NULLABLE => false, Field::C_DEFAULT => 'User'])]
+    protected ?string $name = null;
     #[Field([Field::C_NULLABLE => false, Field::C_UNIQUE => true])]
     protected ?string $username = null;
     #[Field([Field::C_NULLABLE => false])]

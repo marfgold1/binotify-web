@@ -55,6 +55,7 @@ class AuthController extends Controller {
         $flash = ([
             'errors' => [],
             'values' => [
+                'name' => $_POST['name'] ?? null,
                 'username' => $_POST['username'] ?? null,
                 'email' => $_POST['email'] ?? null,
                 'password' => $_POST['password'] ?? null
@@ -65,6 +66,9 @@ class AuthController extends Controller {
         $user = new User();
         $user->set($flash['values']);
         $valid = $user->validate([
+            'name' => [
+                Validation::TYPE => Validation::T_STRING,
+            ],
             'username' => [
                 Validation::TYPE => Validation::T_USERNAME,
                 Validation::REQUIRED,

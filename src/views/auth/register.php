@@ -5,6 +5,7 @@
 <div class="fullw">
     <form action="/register" method="POST">
         <?
+            echoInput('Name', false, 'name', 'text', 'User');
             echoInput('Username', true);
             echoInput('Email', true);
             echoInput('Password', true, null, 'password');
