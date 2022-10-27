@@ -3,6 +3,7 @@
 namespace MusicApp\Controllers;
 
 use MusicApp\Core\Controller;
+use MusicApp\Core\Models\Pagination;
 use MusicApp\Models\Album;
 use MusicApp\Models\Song;
 
@@ -10,6 +11,7 @@ use function MusicApp\Core\back;
 use function MusicApp\Core\get;
 use function MusicApp\Core\has;
 use function MusicApp\Core\route;
+use function MusicApp\Core\set;
 use function MusicApp\Core\view;
 
 class AlbumController extends Controller
@@ -21,13 +23,14 @@ class AlbumController extends Controller
 
     public function detailAlbum($id)
     {
+        $listSong = Song::find('album_id = ?', [$id]);
+        $album = Album::get($id);
         if (has('user')) {
-            if (get('user')->isAdmin)
-                $listSong = Song::find('album_id = ?', [$id]);
-                $album = Album::get($id);
-                view('album.daftar-album-admin', ['lagu' => $listSong, 'album' => $album]);
+            if (get('user')->isAdmin) {
+                view('album.detail-album-admin', ['listLagu' => $listSong, 'album' => $album]);
+            }
         }
-        view('album.daftar-album-user');
+        view('album.detail-album-user', ['listSong' => $listSong, 'album' => $album]);
     }
 
  
@@ -44,9 +47,18 @@ class AlbumController extends Controller
         view('album.form-lagu', ['penyanyi' => $penyanyi, 'lagu' => $lagu]);
     }
 
-    public function showListAlbum($page)
+    public function showListAlbum()
     {
-        view('album.show-list-album', ['page' => $page]);
+        $album = Album::paginate(
+            '',
+            [],
+            'ORDER BY judul ASC',
+            [
+                'page' => intval($_GET['page'] ?? 1),
+                'limit' => 10
+            ]
+        );
+        echo json_encode($album);
     }
 
     public function changeData($album_id)
