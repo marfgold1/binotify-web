@@ -19,3 +19,8 @@ services:
             - MYSQL_PASSWORD=${DB_PASSWORD:?No password set}
         ports:
             - ${DB_PORT:-3306}:3306
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+        - 8080:8080
