@@ -31,10 +31,10 @@ class AuthController extends Controller {
             back()->with($flash);
             return;
         }
-        $users = User::find('username = ?', [$_POST['username']], 'LIMIT 1');
+        $users = User::find('username = ?', [$flash['values']['username']], 'LIMIT 1');
         if ($users) {
             $user = $users[0];
-            if (password_verify($_POST['password'], $user->password)) {
+            if (password_verify($flash['values']['password'], $user->password)) {
                 set('user', $user);
                 route('home');
             } else {
@@ -87,6 +87,7 @@ class AuthController extends Controller {
             back()->flash($flash);
             return;
         }
+        $user->setPassword($_POST['password']); // hash password
         $user->save();
         set('user', $user);
         route('home');

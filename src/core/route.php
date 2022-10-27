@@ -7,7 +7,7 @@ class RouteItem {
     private array $path;
     private string $method;
     private array|Closure $callback;
-    private string $name;
+    private ?string $name = null;
 
     public function __construct(string $path, string $method, array|callable $callback) {
         $this->path = array_filter(explode('/', $path));
@@ -20,8 +20,8 @@ class RouteItem {
         return $this;
     }
 
-    public function __get($name){
-        return $this->$name;
+    public function __get($key){
+        return $this->$key;
     }
 
     public function invoke(...$args) {
