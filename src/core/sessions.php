@@ -4,6 +4,7 @@ namespace MusicApp\Core;
 class Sessions {
     const LAST_URL = 'last_url';
     const CURRENT_URL = 'current_url';
+    const LAST_METHOD = 'last_method';
     const FLASH = 'flash';
     public static bool $autoReset = true;
     private static string $rollbackLastUrl = '';
@@ -29,6 +30,7 @@ class Sessions {
     }
 
     public static function rollback() {
+        set(self::LAST_METHOD, $_SERVER['REQUEST_METHOD']);
         if (static::$rollbackLastUrl !== '') {
             set(Sessions::CURRENT_URL, get(Sessions::LAST_URL));
             set(Sessions::LAST_URL, static::$rollbackLastUrl);
@@ -75,6 +77,7 @@ class Sessions {
             }
         }
 
+        if ((get(self::LAST_METHOD) ?? 'GET') !== 'GET') Sessions::rollback(); // rollback if not get
         if (has(self::CURRENT_URL) && (
             get(self::CURRENT_URL) !== $_SERVER['REQUEST_URI']
             || $_SERVER['REQUEST_METHOD'] !== 'GET'
@@ -84,6 +87,7 @@ class Sessions {
             set(self::LAST_URL, get(self::CURRENT_URL));
         }
         set(self::CURRENT_URL, $_SERVER['REQUEST_URI']);
+        set(self::LAST_METHOD, $_SERVER['REQUEST_METHOD']);
     }
 }
 ?>
