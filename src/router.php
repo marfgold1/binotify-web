@@ -17,6 +17,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::group('/lagu', function() {
     Route::get('/tambah', [LaguController::class, 'tambahForm'])->name('lagu.tambah');
     Route::post('/tambah', [LaguController::class, 'tambah']);
-    Route::get('/detail/:id', [LaguController::class, 'detail'])->name('lagu.detail');
+    Route::get('/:id', [LaguController::class, 'detail'])->name('lagu.detail');
+    Route::post('/:id', [LaguController::class, 'ubah']);
+    Route::post('/:id', [LaguController::class, 'hapus']);
 });
 ?>

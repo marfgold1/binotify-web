@@ -17,8 +17,8 @@ class LaguController extends Controller {
 
     public function tambah(){
         // Pengecekan $_FILES
-        $namaFileAudio = $_FILES['audio_path']['name'];
-        $namaFileImage = $_FILES['image_path']['name'];
+        $namaFileAudio = time() . $_FILES['audio_path']['name'];
+        $namaFileImage = time() . $_FILES['image_path']['name'];
         $tmpAudio = $_FILES['audio_path']['tmp_name'];
         $tmpImage = $_FILES['image_path']['tmp_name'];
 
@@ -65,15 +65,32 @@ class LaguController extends Controller {
         if ($song === null) {
             // back()->withErrors(['user' => 'User not found']);
         } else {
-            // view('detaillagu', ['song' => $song])->with(['sess' => 'anjay']);
+            // Pengecekan $_FILES
+            $namaFileAudio = time() . $_FILES['audio_path']['name'];
+            $namaFileImage = time() . $_FILES['image_path']['name'];
+            $tmpAudio = $_FILES['audio_path']['tmp_name'];
+            $tmpImage = $_FILES['image_path']['tmp_name'];
+
+            // pindahkan file 
+            move_uploaded_file($tmpAudio, __DIR__ . '/../public/audio/' . $namaFileAudio);
+            move_uploaded_file($tmpImage, __DIR__ . '/../public/image/' . $namaFileImage);
+            // Hapus file lama
+            unlink(__DIR__ . '/../public/audio/' . $song->audio_path);
+            unlink(__DIR__ . '/../public/image/' . $song->image_path);
+
             $song->judul = $_POST['judul'];
             $song->tanggal_terbit = $_POST['tanggal_terbit'];
             $song->genre = $_POST['genre'];
             $song->duration = $_POST['duration'];
-            $song->audio_path = '/public/audio/' . $_POST['audio_path'];
-            $song->image_path = '/public/image/' . $_POST['image_path'];
+            $song->audio_path = $namaFileAudio;
+            $song->image_path = $namaFileImage;
+
             $song->save();
-            route('detaillagu', ['id' => $song->id]);
+
+            // Alert berhasil mengubah lagu
+            echo "<script>alert('Berhasil mengubah lagu!'); window.location.href = '/lagu/$id';</script>";
+            view('lagu.detail', ['song' => $song])->with(['sess' => 'anjay']);
+
         }
         
     }

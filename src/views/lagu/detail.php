@@ -4,10 +4,10 @@
     <html lang="en">
         <head>
             <meta charset="utf-8">
-            <title>$title - MusicApp</title>
+            <title><?=$song->judul?> • <?=$song->penyanyi?></title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <script src="/public/js/duration_calc.js" crossorigin="anonymous" defer></script>
-            <script src="/public/js/audioplayer.js" crossorigin="anonymous" defer></script>
+            <script src="/public/js/lagu-detail.js" crossorigin="anonymous" defer></script>
             <link rel="stylesheet" href="/public/css/lagu-detail.css">
         </head>
         <body>
@@ -36,7 +36,7 @@
                                     >X</label
                                 >
                                 <div class="text">Edit Detail Lagu</div>
-                                <form id="form-edit" action="#" method="post">
+                                <form id="form-edit" action="#" method="post" enctype="multipart/form-data">
                                     <div class="data">
                                         <label>Judul*</label>
                                         <input
@@ -89,16 +89,25 @@
                                             name="image_path"
                                             type="file"
                                             accept="image/*"
-                                            value=""
+                                            value="<?=$song->image_path; ?>"
                                             autocomplete = "off"
                                         />
                                     </div>
                                     <button id="save-btn" type="submit" class="btn">
-                                        Save
+                                        Simpan Perubahan
                                     </button>
                                 </form>
+
                             </div>
                         </div>
+                        <form action="" method="delete">
+                            <button id="save-btn" type="submit" class="btn"
+                            onclick="return confirm('Apakah anda yakin untuk menghapus lagu ini?')">
+                                        Hapus Lagu
+                            </button>
+                        </form>
+                        
+                        <!-- <a href="" onclick="return confirm('Apakah anda yakin untuk menghapus lagu ini?')"><button type="button" class="btn">Hapus Lagu</button></a> -->
                     </div>
                 </div>
             </div>
