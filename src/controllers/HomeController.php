@@ -2,23 +2,15 @@
 namespace MusicApp\Controllers;
 
 use MusicApp\Core\Controller;
-use MusicApp\Models\User;
+use MusicApp\Models\Song;
 
-use function MusicApp\Core\back;
-use function MusicApp\Core\send;
 use function MusicApp\Core\view;
 
 class HomeController extends Controller {
-    public function index() {
-        send(__DIR__ . '/HomeController.php');
-    }
-    public function get($id) {
-        $user = User::get($id);
-        if ($user === null) {
-            back()->withErrors(['user' => 'User not found']);
-        } else {
-            view('auth.login', ['user' => $user])->with(['sess' => 'anjay']);
-        }
+    public function home() {
+        $songs = Song::find('', [], 'ORDER BY song_id DESC LIMIT 10');
+        usort($songs, fn($a, $b) => strcmp($a->judul, $b->judul));
+        view('home', ['songs' => $songs]);
     }
 }
 ?>

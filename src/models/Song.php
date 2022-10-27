@@ -4,7 +4,6 @@ namespace MusicApp\Models;
 use MusicApp\Core\Models\Field;
 use MusicApp\Core\Models\ForeignKey;
 use MusicApp\Core\Models\Model;
-use MusicApp\Core\Models\Setter;
 use PDO;
 
 class Song extends Model {
