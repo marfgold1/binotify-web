@@ -5,6 +5,7 @@ include_once __DIR__ . '/../database.php';
 include_once 'field.php';
 include_once 'pagination.php';
 
+use JsonSerializable;
 use MusicApp\Core\Database;
 use ReflectionClass;
 use PDO;
@@ -59,7 +60,7 @@ class ModelCache {
     }
 }
 
-abstract class Model {
+abstract class Model implements JsonSerializable {
     protected bool $isPersisted = false;
     protected bool $isDirty = true;
 
@@ -268,6 +269,10 @@ abstract class Model {
             } else $this->$key = $value;
             $this->isDirty = true;
         }
+    }
+
+    public function jsonSerialize() : mixed {
+        return array_map(fn($k) => $this->{$k[Field::T_FIELD]->name}, static::getCache()->_fields);
     }
 }
 
