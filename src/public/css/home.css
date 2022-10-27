@@ -1,0 +1,149 @@
+@import url(//db.onlinewebfonts.com/c/860c3ec7bbc5da3e97233ccecafe512e?family=Circular+Std+Book);
+
+* {
+    /* Color pallette */
+    --primary: #ffffff;
+    --secondary: #a8a8a8;
+    --bg-dark: #121212;
+    --black: #000000;
+    --dark-small: #181818;
+    --bg-dark-light: #282828;
+    --green: #1ed760;
+
+    box-sizing: border-box;
+    font-family: "circular std book", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: var(--primary);
+    width: 100%;
+    width: 100vw;
+    /* height: 100vh; */
+    background: linear-gradient(115deg, #101010 20%, #212121 80%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Hero section start */
+.hero {
+    padding-top: 6rem;
+    width: 60%;
+    align-self: center;
+    text-align: center;
+}
+
+.big-header {
+    font-size: 5rem;
+    font-weight: bolder;
+}
+
+@media (max-width: 939px) {
+    .big-header {
+        font-size: 3rem;
+    }
+}
+
+/* Hero section end */
+
+/* List container start */
+.list-container {
+    padding-top: 1rem;
+    width: 60%;
+}
+
+.content-table {
+    border-collapse: collapse;
+    text-align: center;
+    margin: 25px 0;
+    font-size: 0.9em;
+    /* min-width: 400px; */
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+}
+
+.content-table tr th {
+    font-size: 1em;
+    font-weight: 10;
+    color: var(--secondary);
+    text-align: left;
+    border-bottom: 1px solid var(--bg-dark-light);
+    padding: 12px 15px;
+}
+
+.content-table td {
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.content-table tr:hover {
+    background-color: var(--bg-dark-light);
+}
+
+.content-table tr:hover > .number-play {
+    cursor: pointer;
+}
+
+.content-table .number-play .show-play {
+    display: none;
+}
+
+.content-table tr:hover > .number-play .show-play {
+    display: block;
+}
+
+.content-table tr:hover > .number-play .show-number {
+    display: none;
+}
+
+/* Mini-info (JUDUL) section start */
+.mini-info {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+.mini-cover {
+    --size: 3em;
+    flex-shrink: 0;
+    width: var(--size);
+    height: var(--size);
+}
+.mini-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mini-desc p {
+    margin: 0.2em;
+}
+
+.mini-title,
+.mini-artist {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+.mini-title:hover,
+.mini-artist:hover {
+    text-decoration: underline;
+}
+
+.mini-title {
+    font-size: 14px;
+}
+
+.mini-artist {
+    font-size: 11px;
+    color: var(--secondary);
+}
+
+/* Mini-info (JUDUL) End */
+
+/* List container end */
