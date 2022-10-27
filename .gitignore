@@ -1,3 +1,5 @@
 .env
 public/audio
 public/image
+*.mp3
+*.jpg

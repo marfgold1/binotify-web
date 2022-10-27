@@ -40,20 +40,16 @@ class LaguController extends Controller {
         echo "<script>alert('Berhasil menambah lagu!'); window.location.href = '/lagu/tambah';</script>";
     }
 
-    public function detail() {
-        view('lagu.detail');
-    }
-
-    public function get($id) {
+    public function detail($id) {
         $song = Song::get($id);
         if ($song === null) {
             // back()->withErrors(['user' => 'User not found']);
         } else {
-            // view('detaillagu', ['song' => $song])->with(['sess' => 'anjay']);
+            view('lagu.detail', ['song' => $song])->with(['sess' => 'anjay']);
         }
     }
 
-    public function delete($id)
+    public function hapus($id)
     {
         $song = Song::get($id);
         if ($song === null) {
@@ -63,7 +59,7 @@ class LaguController extends Controller {
         }
     }
 
-    public function update($id)
+    public function ubah($id)
     {
         $song = Song::get($id);
         if ($song === null) {

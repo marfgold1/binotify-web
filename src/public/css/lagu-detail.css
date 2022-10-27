@@ -1,0 +1,358 @@
+@import url(//db.onlinewebfonts.com/c/860c3ec7bbc5da3e97233ccecafe512e?family=Circular+Std+Book);
+
+* {
+    /* Color pallette */
+    --primary: #ffffff;
+    --secondary: #a8a8a8;
+    --bg-dark: #121212;
+    --black: #000000;
+    --dark-small: #181818;
+    --bg-dark-light: #282828;
+    --green: #1ed760;
+
+    box-sizing: border-box;
+    font-family: "circular std book", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(115deg, #101010 20%, #212121 80%);
+    color: var(--primary);
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Song detail Section */
+
+.song-detail {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(115deg, #101010 20%, #212121 80%);
+    padding: 100px;
+    height: 100vh;
+    gap: 4rem;
+}
+
+.detail-cover {
+    --size: 300px;
+    flex-shrink: 2;
+    width: var(--size);
+    height: var(--size);
+}
+
+.detail-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.desc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.additional {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.btn {
+    background-color: var(--green);
+    border: none;
+    color: var(--primary);
+    padding: 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* Edit button section */
+
+input[type="checkbox"] {
+    display: none;
+}
+
+.modal {
+    display: none;
+    background: var(--bg-dark-light);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 410px;
+    padding: 30px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    z-index: 1;
+}
+
+#show:checked ~ .modal {
+    display: block;
+}
+
+.modal .close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #fff;
+}
+.modal .close-btn:hover {
+    color: #04aa6d;
+}
+.modal .text {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+}
+.modal form {
+    margin-top: -20px;
+}
+
+.modal form .data {
+    height: 40px;
+    width: 100%;
+    margin: 40px 0;
+    color: #fff;
+}
+
+form .data label {
+    font-size: 13px;
+    color: var(--secondary);
+}
+form .data input {
+    height: 100%;
+    width: 100%;
+    padding-left: 10px;
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+form .btn {
+    width: 100%;
+    position: relative;
+}
+
+/* Music player section */
+
+.music-player {
+    --padding: 16px;
+    background-color: var(--dark-small);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90px;
+    padding: var(--padding);
+    color: var(--primary-color);
+    font-size: 14px;
+}
+
+/* Selector for icons in music player */
+i {
+    -webkit-filter: invert(60%);
+    filter: invert(60%);
+}
+
+i:hover {
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+}
+
+/* Music player: Now playing widget section */
+
+.now-playing {
+    position: absolute;
+    left: var(--padding);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    width: 25%;
+}
+
+.mini-info {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+.mini-cover {
+    --size: 4em;
+    flex-shrink: 0;
+    width: var(--size);
+    height: var(--size);
+}
+.mini-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mini-desc p {
+    margin: 0.2em;
+}
+
+.mini-title,
+.mini-artist {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+.mini-title:hover,
+.mini-artist:hover {
+    text-decoration: underline;
+}
+
+.mini-title {
+    font-size: 14px;
+}
+
+.mini-artist {
+    font-size: 11px;
+    color: var(--secondary);
+}
+
+.mini-add {
+    display: flex;
+    gap: 1em;
+}
+
+/* Player Control */
+
+.player-control {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--secondary);
+}
+
+.control-button {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+}
+
+.shuffle-button {
+    padding: 8px;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='iso-8859-1'%3F%3E%3C!-- Generator: Adobe Illustrator 19.0.0  SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 490.1 490.1' style='enable-background:new 0 0 490.1 490.1%3B' xml:space='preserve'%3E%3Cg%3E%3Cg%3E%3Cpath d='M194.5 324.35l15-24.2c3.6-5.8 1.8-13.3-4-16.9c-5.7-3.6-13.3-1.8-16.9 4l-15 24.2c-27.2 43.9-66 69.1-106.6 69.1H12.2c-6.8 0-12.2 5.5-12.2 12.3s5.5 12.3 12.2 12.3h54.9C116.4 404.95 162.8 375.55 194.5 324.35z'/%3E%3Cpath d='M486.4 88.75L427 29.25c-4.8-4.8-12.5-4.8-17.3 0s-4.8 12.5 0 17.3l38.6 38.6c-0.1 0-0.1 0-0.2 0h-56.7c-49.2 0-95.7 29.4-127.4 80.6l-9.2 14.9c-3.6 5.8-1.8 13.3 4 16.9c2 1.2 4.2 1.8 6.4 1.8c4.1 0 8.1-2.1 10.4-5.8l9.2-14.9c27.2-43.9 66-69 106.6-69H448c0.1 0 0.1 0 0.2 0l-38.6 38.6c-4.8 4.8-4.8 12.5 0 17.3c2.4 2.4 5.5 3.6 8.7 3.6s6.3-1.2 8.7-3.6l59.5-59.5C491.2 101.25 491.2 93.45 486.4 88.75z M460.3 97.55c0-0.1 0-0.1 0-0.2s0-0.1 0-0.2l0.2 0.2L460.3 97.55z'/%3E%3Cpath d='M409.6 460.85c2.4 2.4 5.5 3.6 8.7 3.6s6.3-1.2 8.7-3.6l59.5-59.5c4.8-4.8 4.8-12.5 0-17.3l-59.5-59.4c-4.8-4.8-12.5-4.8-17.3 0s-4.8 12.5 0 17.3l38.6 38.6c-0.1 0-0.1 0-0.2 0h-54.9c-40.5 0-79.4-25.2-106.6-69.1l-90.2-145.7c-31.7-51.3-78.2-80.6-127.4-80.6H12.2c-6.8 0-12.2 5.5-12.2 12.3s5.5 12.3 12.2 12.3h56.7c40.5 0 79.4 25.2 106.6 69l90.2 145.7c31.7 51.3 78.2 80.7 127.4 80.7H448c0.1 0 0.1 0 0.2 0l-38.6 38.6C404.9 448.35 404.9 456.05 409.6 460.85z M460.3 392.55l0.2 0.2l-0.2 0.2c0-0.1 0-0.1 0-0.2S460.3 392.65 460.3 392.55z'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E");
+}
+
+.prev {
+    padding: 8px;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='iso-8859-1'%3F%3E%3C!-- Generator: Adobe Illustrator 18.1.1  SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 17.804 17.804' style='enable-background:new 0 0 17.804 17.804%3B' xml:space='preserve'%3E%3Cg%3E%3Cg id='c93_stop'%3E%3Cpath d='M2.44 0.043c0.14-0.071 0.304-0.051 0.425 0.044l10.777 8.502c0.094 0.074 0.152 0.191 0.152 0.312c0 0.118-0.059 0.24-0.152 0.314L2.864 17.718c-0.072 0.056-0.162 0.086-0.25 0.086l-0.175-0.04c-0.137-0.065-0.223-0.206-0.223-0.362V0.403C2.216 0.249 2.302 0.106 2.44 0.043z'/%3E%3Cpath d='M12.616 0.034h2.656c0.175 0 0.316 0.181 0.316 0.399v16.935c0 0.222-0.142 0.403-0.316 0.403h-2.656c-0.174 0-0.316-0.182-0.316-0.403V0.434C12.3 0.215 12.443 0.034 12.616 0.034z'/%3E%3C/g%3E%3Cg id='Capa_1_11_'%3E%3C/g%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E");
+    transform: rotate(180deg);
+}
+
+.next {
+    padding: 8px;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='iso-8859-1'%3F%3E%3C!-- Generator: Adobe Illustrator 18.1.1  SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 17.804 17.804' style='enable-background:new 0 0 17.804 17.804%3B' xml:space='preserve'%3E%3Cg%3E%3Cg id='c93_stop'%3E%3Cpath d='M2.44 0.043c0.14-0.071 0.304-0.051 0.425 0.044l10.777 8.502c0.094 0.074 0.152 0.191 0.152 0.312c0 0.118-0.059 0.24-0.152 0.314L2.864 17.718c-0.072 0.056-0.162 0.086-0.25 0.086l-0.175-0.04c-0.137-0.065-0.223-0.206-0.223-0.362V0.403C2.216 0.249 2.302 0.106 2.44 0.043z'/%3E%3Cpath d='M12.616 0.034h2.656c0.175 0 0.316 0.181 0.316 0.399v16.935c0 0.222-0.142 0.403-0.316 0.403h-2.656c-0.174 0-0.316-0.182-0.316-0.403V0.434C12.3 0.215 12.443 0.034 12.616 0.034z'/%3E%3C/g%3E%3Cg id='Capa_1_11_'%3E%3C/g%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E");
+}
+
+.repeat-button {
+    padding: 8px;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='iso-8859-1'%3F%3E%3C!-- Generator: Adobe Illustrator 19.0.0  SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 384.97 384.97' style='enable-background:new 0 0 384.97 384.97%3B' xml:space='preserve'%3E%3Cg%3E%3Cpath id='Loop' d='M360.909 17.934H24.061C10.767 17.934 0 28.713 0 41.995V258.54c0 13.293 10.767 24.061 24.061 24.061h60.152c7.711 0 12.03-5.45 12.03-12.03c0-6.581-4.09-12.187-12.03-12.187H38.738c-8.036 0-14.557-6.52-14.557-14.557V57.093c0-8.036 6.52-14.557 14.557-14.557l307.627-0.373c8.036 0 14.557 6.52 14.557 14.557v187.107c0 8.036-6.52 14.557-14.557 14.557H209.556l62.413-63.303c4.692-4.752 4.692-12.439 0-17.191c-4.704-4.74-12.319-4.74-17.011 0l-83.009 84.2c-4.692 4.74-4.692 12.439 0 17.191c0 0 0 0 0.012 0l82.997 84.2c4.692 4.74 12.319 4.74 17.011 0c4.692-4.752 4.692-12.439 0-17.179l-62.774-63.688h151.714c13.293 0 24.061-10.767 24.061-24.061V42.007C384.97 28.713 374.203 17.934 360.909 17.934z'/%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E");
+}
+
+.play-pause {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.play-button {
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+    padding: 16px;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='iso-8859-1'%3F%3E%3C!-- Generator: Adobe Illustrator 19.0.0  SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 459 459' style='enable-background:new 0 0 459 459%3B' xml:space='preserve'%3E%3Cg%3E%3Cg%3E%3Cpath d='M229.5 0C102.751 0 0 102.751 0 229.5S102.751 459 229.5 459S459 356.249 459 229.5S356.249 0 229.5 0z M310.292 239.651l-111.764 76.084c-3.761 2.56-8.63 2.831-12.652 0.704c-4.022-2.128-6.538-6.305-6.538-10.855V153.416c0-4.55 2.516-8.727 6.538-10.855c4.022-2.127 8.891-1.857 12.652 0.704l111.764 76.084c3.359 2.287 5.37 6.087 5.37 10.151C315.662 233.564 313.652 237.364 310.292 239.651z'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E");
+}
+
+.pause-button {
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+    padding: 16px;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='iso-8859-1'%3F%3E%3C!-- Generator: Adobe Illustrator 18.0.0  SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 39.989 39.989' style='enable-background:new 0 0 39.989 39.989%3B' xml:space='preserve'%3E%3Cpath id='XMLID_148_' d='M19.995 0C8.952 0 0 8.952 0 19.994c0 11.043 8.952 19.995 19.995 19.995s19.995-8.952 19.995-19.995C39.989 8.952 31.037 0 19.995 0z M18.328 26.057c0 0.829-0.671 1.5-1.5 1.5s-1.5-0.671-1.5-1.5V14.724c0-0.829 0.671-1.5 1.5-1.5s1.5 0.671 1.5 1.5V26.057z M24.661 26.057c0 0.829-0.671 1.5-1.5 1.5s-1.5-0.671-1.5-1.5V14.724c0-0.829 0.671-1.5 1.5-1.5s1.5 0.671 1.5 1.5V26.057z'/%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E");
+}
+
+.play-pause:hover {
+    transform: scale(1.1);
+    color: #111;
+}
+
+.progress-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    font-size: 12px;
+}
+
+.progress-area {
+    height: 4px;
+    border-radius: 10px;
+    width: 35%;
+    background-color: #ccc4;
+}
+
+.progress-area .progress-bar {
+    height: inherit;
+    width: 0%;
+    position: relative;
+    border-radius: inherit;
+    background-color: var(--green);
+}
+
+.progress-bar::before {
+    content: "";
+    position: absolute;
+    height: 12px;
+    width: 12px;
+    background-color: var(--primary);
+    border-radius: inherit;
+    top: 50%;
+    right: -5px;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.2 ease;
+}
+
+.progress-bar:hover::before {
+    opacity: 1;
+}

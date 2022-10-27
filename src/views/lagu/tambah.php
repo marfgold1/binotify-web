@@ -1,7 +1,4 @@
-<?php
-    include_once __DIR__ . '/../template.inc.php';
-    starthtml('Tambah Lagu');
-?>
+
 
 <div>
     <h1>Tambah Lagu</h1>
@@ -74,7 +71,3 @@
         </ul>
     </form>
 </div>
-
-<?php
-    endhtml();
-?>
