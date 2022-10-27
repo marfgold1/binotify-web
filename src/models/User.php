@@ -7,7 +7,7 @@ use MusicApp\Core\Models\Setter;
 use PDO;
 
 class User extends Model {
-    protected static string $table = 'users';
+    protected static string $table = 'user';
 
     public function setPassword ($value) {
         if ($value === null) {
@@ -24,7 +24,7 @@ class User extends Model {
     #[Field([Field::C_NULLABLE => false])]
     #[Setter('setPassword')]
     protected ?string $password = null;
-    #[Field([Field::C_NULLABLE => false])]
+    #[Field([Field::C_NULLABLE => false, Field::C_UNIQUE => true])]
     protected ?string $email = null;
     #[Field([Field::C_NULLABLE => false, Field::C_DEFAULT => false], PDO::PARAM_BOOL)]
     protected ?bool $isAdmin = null;

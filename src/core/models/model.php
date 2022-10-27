@@ -247,7 +247,7 @@ abstract class Model {
                 $this->$key,  // the field value
                 $fields[$key] // field key
             );
-            if ($v) $errors[$key] = $v;
+            if ($v) $errors[$key] = ucfirst($v);
         }
         return $errors;
     }
