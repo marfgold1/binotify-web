@@ -2,6 +2,7 @@
 namespace MusicApp\Controllers;
 
 use MusicApp\Core\Controller;
+use MusicApp\Core\Models\Validation;
 use MusicApp\Models\User;
 
 use function MusicApp\Core\back;
@@ -44,6 +45,51 @@ class AuthController extends Controller {
             $flash['errors']['username'] = 'Username is not found!';
             back()->flash($flash);
         }
+    }
+
+    public function registerForm() {
+        view('auth.register');
+    }
+
+    public function register() {
+        $flash = ([
+            'errors' => [],
+            'values' => [
+                'username' => $_POST['username'] ?? null,
+                'email' => $_POST['email'] ?? null,
+                'password' => $_POST['password'] ?? null
+            ]
+        ]);
+        if (!isset($_POST['password_confirm']) || $_POST['password_confirm'] !== $_POST['password'])
+            $flash['errors']['password_confirm'] = 'Password confirmation does not match';
+        $user = new User();
+        $user->set($flash['values']);
+        $valid = $user->validate([
+            'username' => [
+                Validation::TYPE => Validation::T_USERNAME,
+                Validation::REQUIRED,
+                Validation::UNIQUE => User::class,
+            ],
+            'email' => [
+                Validation::TYPE => Validation::T_EMAIL,
+                Validation::REQUIRED,
+                Validation::UNIQUE => User::class,
+            ],
+            'password' => [
+                Validation::TYPE => Validation::T_STRING,
+                Validation::REQUIRED,
+                Validation::MIN => 8,
+            ],
+        ]);
+        $flash['errors'] = array_merge($flash['errors'], $valid);
+        $flash['values']['password_confirm'] = $_POST['password_confirm'] ?? null;
+        if (count($flash['errors']) > 0) {
+            back()->flash($flash);
+            return;
+        }
+        $user->save();
+        set('user', $user);
+        route('home');
     }
 }
 
