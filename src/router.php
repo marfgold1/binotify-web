@@ -24,4 +24,15 @@ Route::group('/lagu', function() {
     Route::post('/:id', [LaguController::class, 'ubah']);
     Route::post('/:id', [LaguController::class, 'hapus']);
 });
+Route::group('album', function() {
+    Route::get('/', [AlbumController::class, 'daftarAlbum'])->name('album.daftar-album');
+    Route::get('/data', [AlbumController::class, 'showListAlbum'])->name('album.show-list-album');
+    Route::get('/create', [AlbumController::class, 'formAlbum'])->name('album.form-album');
+    Route::post('/create', [AlbumController::class, 'tambahAlbum']);
+    Route::post('/add/:id', [AlbumController::class, 'tambahLagu']);
+    Route::post('/delete/:id', [AlbumController::class, 'hapusLagu']);
+    Route::get('/edit/:id', [AlbumController::class, 'formLagu'])->name('album.form-lagu');
+    Route::get('/:id', [AlbumController::class, 'detailAlbum'])->name('album.detail-album');
+    Route::post('/:id', [AlbumController::class, 'changeData']);
+});
 ?>
