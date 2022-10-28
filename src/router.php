@@ -3,9 +3,9 @@
 namespace MusicApp;
 
 use MusicApp\Controllers\AuthController;
-use MusicApp\Controllers\HomeController;
 use MusicApp\Controllers\LaguController;
 use MusicApp\Controllers\AlbumController;
+use MusicApp\Controllers\HomeController;
 use MusicApp\Core\Route;
 // ===================
 
@@ -32,10 +32,11 @@ Route::group('album', function() {
     Route::get('/data', [AlbumController::class, 'showListAlbum'])->name('album.show-list-album');
     Route::get('/create', [AlbumController::class, 'formAlbum'])->name('album.form-album');
     Route::post('/create', [AlbumController::class, 'tambahAlbum']);
-    Route::post('/add/:id', [AlbumController::class, 'tambahLagu']);
-    Route::post('/delete/:id', [AlbumController::class, 'hapusLagu']);
-    Route::get('/edit/:id', [AlbumController::class, 'formLagu'])->name('album.form-lagu');
+    Route::get('/add/:album_id', [AlbumController::class, 'formLagu'])->name('album.form-lagu');
+    Route::post('/:album_id/delete', [AlbumController::class, 'hapusAlbum']);
+    Route::post('/remove/:song_id', [AlbumController::class, 'hapusLagu']);
+    Route::get('/edit/:album_id/:song_id', [AlbumController::class, 'tambahLagu'])->name('album.tambah-lagu');
     Route::get('/:id', [AlbumController::class, 'detailAlbum'])->name('album.detail-album');
-    Route::post('/:id', [AlbumController::class, 'changeData']);
+    Route::post('/:album_id', [AlbumController::class, 'changeData']);
 });
 ?>

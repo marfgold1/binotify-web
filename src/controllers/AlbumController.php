@@ -26,14 +26,18 @@ class AlbumController extends Controller
         $listSong = Song::find('album_id = ?', [$id]);
         $album = Album::get($id);
         if (has('user')) {
-            if (get('user')->isAdmin) {
+            $user = get('user');
+            if ($user->isAdmin) {
                 view('album.detail-album-admin', ['listLagu' => $listSong, 'album' => $album]);
             }
+
         }
-        view('album.detail-album-user', ['listSong' => $listSong, 'album' => $album]);
+        view('album.detail-album-user', ['listLagu' => $listSong, 'album' => $album]);
     }
 
- 
+        
+
+
 
     public function formAlbum()
     {
@@ -58,17 +62,19 @@ class AlbumController extends Controller
                 'limit' => 10
             ]
         );
-        echo json_encode($album);
+        echo json_encode($album ?? []);
     }
 
     public function changeData($album_id)
     {
-        $namaFile = $_FILES['berkas']['name'];
-        $fileLocation = "/album/" . 'img/' . $namaFile;
         $album = Album::get($album_id);
         $album->penyanyi = $_POST['penyanyi'];
         $album->judul = $_POST['judul'];
-        $album->img_path = $fileLocation;
+        if (isset($_FILES)) {
+            $namaFile = $_FILES['berkas']['name'];
+        $fileLocation = "/public/img/" . $namaFile;
+        $album->image_path = $fileLocation;
+        }
         $album->save();
         route('album.daftar-album')->with(['success' => 'Album berhasil diubah']);
     }
@@ -78,7 +84,6 @@ class AlbumController extends Controller
         $album->delete();
         route('album.daftar-album')->with(['success' => 'Album berhasil dihapus']);
         exit;
-        
     }
 
     public function tambahAlbum()
@@ -86,7 +91,7 @@ class AlbumController extends Controller
         $album = new Album();
         $album->penyanyi = $_POST['penyanyi'];
         $album->judul = $_POST['judul'];
-        $album->img_path = "/album/" . 'img/' . $_FILES['berkas']['name'];
+        $album->img_path = "/public/img/" . $_FILES['berkas']['name'];
         $album->save();
         route('album.daftar-album')->with(['success' => 'Album berhasil ditambahkan']);
     }
@@ -99,11 +104,11 @@ class AlbumController extends Controller
         back()->with(['success' => 'Lagu berhasil ditambahkan']);
     }
 
-    public function hapusLagu($album_id, $song_id)
+    public function hapusLagu($song_id)
     {
         $lagu = Song::get($song_id);
         $lagu->album_id = null;
         $lagu->save();
         back()->with(['success' => 'Lagu berhasil dihapus']);
-        }
     }
+}
