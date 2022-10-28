@@ -84,19 +84,19 @@ class Validation {
                         return sprintf(Validation::ERROR_MESSAGE[Validation::REGEX], $fieldName);
                     break;
                 case Validation::T_INT:
-                    if (!is_int($field))
+                    if (!is_int($value))
                         return sprintf(Validation::ERROR_MESSAGE[Validation::T_INT], $fieldName);
-                    if (in_array(Validation::MIN, $validators) && $field < $opts[Validation::MIN])
+                    if (in_array(Validation::MIN, $validators) && $value < $opts[Validation::MIN])
                         return sprintf(Validation::ERROR_MESSAGE[Validation::MIN], $fieldName, $opts[Validation::MIN]);
-                    if (in_array(Validation::MAX, $validators) && $field > $opts[Validation::MAX])
+                    if (in_array(Validation::MAX, $validators) && $value > $opts[Validation::MAX])
                         return sprintf(Validation::ERROR_MESSAGE[Validation::MAX], $fieldName, $opts[Validation::MAX]);
                     break;
                 case Validation::T_BOOL:
-                    if (!is_bool($field))
+                    if (!is_bool($value))
                         return sprintf(Validation::ERROR_MESSAGE[Validation::T_BOOL], $fieldName);
                     break;
                 case Validation::T_DATE:
-                    if (!is_string($field) || !strtotime($field))
+                    if (!is_string($value) || !strtotime($value))
                         return sprintf(Validation::ERROR_MESSAGE[Validation::T_DATE], $fieldName);
                     break;
             }
