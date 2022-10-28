@@ -44,7 +44,7 @@ use function MusicApp\Core\echoSidebar;
                         </td>
                         <td class="mini-info">
                             <div class="mini-cover">
-                                <img id="mini-cover" src="<?= $song->image_path ?>" alt="" />
+                                <img id="mini-cover" src="/public/image/<?= $song->image_path ?>" alt="" />
                             </div>
                             <div class="mini-desc">
                                 <p id="mini-title" class="mini-title"><?= $song->judul ?></p>
