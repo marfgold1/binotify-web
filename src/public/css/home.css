@@ -21,17 +21,33 @@ a {
     color: white;
 }
 
+.container.fullw{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(115deg, #101010 20%, #212121 80%);
+    padding: 100px;
+    height: 100vh;
+    gap: 2rem;
+    margin-top: 4rem;
+    margin-left: 250px;
+    width: 100%;
+    /* overflow-x: hidden; */
+    overflow-x: hidden;
+}
+
 tr[onclick]:hover {
     cursor: pointer;
 }
 
 body {
-    overflow-x: unset;
+    overflow-x: hidden;
     color: var(--primary);
     width: 100%;
     background: linear-gradient(115deg, #101010 20%, #212121 80%);
     display: flex;
-    /* flex-direction: column; */
+    flex-direction: column;
     align-items: center;
 }
 

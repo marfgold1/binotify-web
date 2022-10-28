@@ -1,3 +1,8 @@
+<?
+include_once 'navbar.inc.php'; 
+use function MusicApp\Core\echoSidebar;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -5,16 +10,15 @@
         <title>Home - MusicApp</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/public/css/home.css">
+        <link rel="stylesheet" href="/public/css/lagu-detail.css">
     </head>
     <body>
-        <div>
-
-        </div>
-        <section>
+        <? echoSidebar(); ?>
+        <section class="container fullw">
             <!-- Hero section start -->
             <section class="hero">
                 <h1 class="big-header">Home</h1>
-                <!-- <p>Menampilkan 10 Lagu Terbaru</p> -->
+                <p>Menampilkan 10 Lagu Terbaru</p>
             </section>
             <!-- Hero section end -->
 
@@ -27,12 +31,6 @@
                         <th>JUDUL</th>
                         <th>TAHUN TERBIT</th>
                         <th>GENRE</th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th><select><option>Ascending</option><option>Descending</option></select></th>
-                        <th></th>
-                        <th><select><option>Rock</option><option>Anjay</option></select></th>
                     </tr>
                     <?php $i = 1; ?>
                     <?php foreach ($songs as $song) : ?>

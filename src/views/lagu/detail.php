@@ -1,4 +1,9 @@
-<?php 
+<?php
+include_once __DIR__ . '/../navbar.inc.php';
+use function MusicApp\Core\echoSidebar;
+use function MusicApp\Core\get;
+use function MusicApp\Core\has;
+
 ?>
 <!DOCTYPE html>
     <html lang="en">
@@ -19,44 +24,8 @@
                 admin: home, search, tambah lagu, tambah album, daftar album, logout
                 Non-user: home, search, login, register
              -->
-            <div class="sidebar">
-                <h2>Binotify</h2>
-                <ul class="nav">
-                    <li>
-                    <a href="/home">
-                        <span>Home</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                        <span>Search</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="/lagu/tambah">
-                        <span>Tambah Lagu</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                        <span>Tambah Album</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                        <span>Daftar Album</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                        <span>Logout</span>
-                    </a>
-                    </li>
-                </ul>
-            </div>
-
+            <? echoSidebar(); ?>
             <!-- Sidebar end -->
-
             <!-- Song detail section start -->
             <div class="song-detail">
                 <div class="detail-cover">
@@ -66,14 +35,19 @@
                     <h1 id="desc-title" class="desc-title"><?=$song->judul; ?></h1>
                     <h3 id="desc-artist" class="desc-artist"><?=$song->penyanyi; ?></h3>
                     <div class="additional">
+                        <? if ($song->genre): ?>
                         <p id="desc-genre" class="desc-genre"><?=$song->genre; ?></p>
                         <p>•</p>
+                        <? endif; ?>
                         <p id="desc-date" class="desc-date"><?=$song->tanggal_terbit; ?></p>
                         <p>•</p>
                         <p id="desc-dur" class="desc-dur">Durasi</p>
                     </div>
                     <div class="buttons">
-                        <button type="button" class="btn">Lihat Album</button>
+                        <? if ($song->album_id): ?>
+                        <button type="button" onclick="window.location.href='/album/<?=$song->album_id?>'" class="btn">Lihat Album</button>
+                        <? endif; ?>
+                        <? if (has('user') && get('user')->isAdmin): ?> 
                         <div class="show">
                             <input type="checkbox" id="show" />
                             <label for="show" class="btn">Edit Detail Lagu</label>
@@ -113,14 +87,13 @@
                                         />
                                     </div>
                                     <div class="data">
-                                        <label>File Lagu*</label>
+                                        <label>File Lagu</label>
                                         <input
                                             type="file"
                                             id="audio_path"
                                             autocomplete="off"
                                             name="audio_path"
                                             accept="audio/*"
-                                            required
                                             onchange= "audioPreview()"
                                         />
                                         <input
@@ -135,7 +108,7 @@
                                             name="image_path"
                                             type="file"
                                             accept="image/*"
-                                            value="<?=$song->image_path; ?>"
+                                            value="<?=$song->image_path?>"
                                             autocomplete = "off"
                                         />
                                     </div>
@@ -146,14 +119,13 @@
 
                             </div>
                         </div>
-                        <form action="" method="delete">
+                        <form id="delete-lagu" action="/lagu/<?=$song->song_id?>/delete" method="POST">
                             <button id="save-btn" type="submit" class="btn"
-                            onclick="return confirm('Apakah anda yakin untuk menghapus lagu ini?')">
-                                        Hapus Lagu
+                            onclick="if(confirm('Apakah anda yakin untuk menghapus lagu ini?')) document.querySelector('form#delete-lagu').submit();">
+                                Hapus Lagu
                             </button>
                         </form>
-                        
-                        <!-- <a href="" onclick="return confirm('Apakah anda yakin untuk menghapus lagu ini?')"><button type="button" class="btn">Hapus Lagu</button></a> -->
+                        <? endif; ?>
                     </div>
                 </div>
             </div>

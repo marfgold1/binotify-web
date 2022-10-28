@@ -3,9 +3,9 @@
 namespace MusicApp;
 
 use MusicApp\Controllers\AuthController;
+use MusicApp\Controllers\HomeController;
 use MusicApp\Controllers\LaguController;
 use MusicApp\Controllers\AlbumController;
-use MusicApp\Controllers\HomeController;
 use MusicApp\Core\Route;
 // ===================
 
@@ -20,12 +20,13 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/check/username/:username', [AuthController::class, 'checkUsername']);
 Route::post('/check/email/:email', [AuthController::class, 'checkEmail']);
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::group('/lagu', function() {
-    Route::get('/tambah', [LaguController::class, 'tambahForm'])->name('lagu.tambah');
-    Route::post('/tambah', [LaguController::class, 'tambah']);
-    Route::get('/:id', [LaguController::class, 'detail'])->name('lagu.detail');
-    Route::post('/:id', [LaguController::class, 'ubah']);
-    Route::post('/:id', [LaguController::class, 'hapus']);
+    Route::post('/', [LaguController::class, 'store']);
+    Route::get('/create', [LaguController::class, 'create'])->name('lagu.tambah');
+    Route::get('/:id', [LaguController::class, 'show'])->name('lagu.detail');
+    Route::post('/:id', [LaguController::class, 'update']);
+    Route::post('/:id/delete', [LaguController::class, 'delete']);
 });
 Route::group('album', function() {
     Route::get('/', [AlbumController::class, 'daftarAlbum'])->name('album.daftar-album');

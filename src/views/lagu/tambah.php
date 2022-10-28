@@ -1,3 +1,8 @@
+<?
+include_once __DIR__ . '/../navbar.inc.php';
+
+use function MusicApp\Core\echoSidebar;
+?>
 <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -14,46 +19,11 @@
                 admin: home, search, tambah lagu, tambah album, daftar album, logout
                 Non-user: home, search, login, register
              -->
-             <div class="sidebar">
-                <h2>Binotify</h2>
-                <ul class="nav">
-                    <li>
-                    <a href="/home">
-                        <span>Home</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                        <span>Search</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="/lagu/tambah">
-                        <span>Tambah Lagu</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                        <span>Tambah Album</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                        <span>Daftar Album</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                        <span>Logout</span>
-                    </a>
-                    </li>
-                </ul>
-            </div>
-
+            <? echoSidebar(); ?>
             <!-- Sidebar end -->
             <div class="modal">
                 <div class="text">Tambah Lagu</div>
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="/lagu" method="post" enctype="multipart/form-data">
                     <div>
                         <div class="data">
                             <label>Judul*</label>

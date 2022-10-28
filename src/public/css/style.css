@@ -48,7 +48,7 @@ a.btn {
     box-shadow: none;
 }
 .btn.btn-invert {
-    background-color: #fff;
+    background-color: #fff0;
     border: #959595 solid 1px;
     color: #959595;
 }
