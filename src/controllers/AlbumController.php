@@ -25,7 +25,12 @@ class AlbumController extends Controller
     {
         $listSong = Song::find('album_id = ?', [$id]);
         $album = Album::get($id);
-        view('album.detail-album-admin', ['listLagu' => $listSong, 'album' => $album]);
+        if (has('user')) {
+            if (get('user')->role == 'admin') {
+                view('album.detail-album-admin', ['listLagu' => $listSong, 'album' => $album]);
+            }
+        }
+        view('album.detail-album-user', ['listLagu' => $listSong, 'album' => $album]);
     }
 
         
@@ -78,10 +83,14 @@ class AlbumController extends Controller
 
     public function tambahAlbum()
     {
+        $namaFile = $_FILES['image_path']['name'];
+        $fileLocation = "/public/img/" . $namaFile;
         $album = new Album();
         $album->penyanyi = $_POST['penyanyi'];
         $album->judul = $_POST['judul'];
-        $album->img_path = "/public/img/" . $_FILES['berkas']['name'];
+        $album->image_path = $fileLocation;
+        $album->tanggal_terbit = $_POST['tanggal_terbit'];
+        $album->total_duration = 100;
         $album->save();
         route('album.daftar-album')->with(['success' => 'Album berhasil ditambahkan']);
     }
