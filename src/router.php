@@ -32,11 +32,11 @@ Route::group('album', function() {
     Route::get('/', [AlbumController::class, 'daftarAlbum'])->name('album.daftar-album');
     Route::get('/data', [AlbumController::class, 'showListAlbum'])->name('album.show-list-album');
     Route::get('/create', [AlbumController::class, 'formAlbum'])->name('album.form-album');
+    Route::post('/add/:album_id/:song_id', [AlbumController::class, 'tambahLagu'])->name('album.tambah-lagu');
     Route::post('/create', [AlbumController::class, 'tambahAlbum']);
     Route::get('/add/:album_id', [AlbumController::class, 'formLagu'])->name('album.form-lagu');
     Route::post('/:album_id/delete', [AlbumController::class, 'hapusAlbum']);
     Route::post('/remove/:song_id', [AlbumController::class, 'hapusLagu']);
-    Route::get('/edit/:album_id/:song_id', [AlbumController::class, 'tambahLagu'])->name('album.tambah-lagu');
     Route::get('/:id', [AlbumController::class, 'detailAlbum'])->name('album.detail-album');
     Route::post('/:album_id', [AlbumController::class, 'changeData']);
 });
