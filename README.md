@@ -21,17 +21,27 @@ Aplikasi musik berbasis web yang dijalankan menggunakan sebuah DBMS MySQL dan PH
 -   Jalankan perintah `docker compose --build -d` melalui terminal
 
 ## Screenshot tampilan aplikasi
+Halaman Register
+![image.png](./image.png)
+Halaman Login
+![image-1.png](./image-1.png)
+Halaman Home
+![image-2.png](./image-2.png)
+Halaman Detail Lagu
+![image-3.png](./image-3.png)
+Halaman Tambah Lagu
+![image-4.png](./image-4.png)
+Halaman Tambah Album
+![image-5.png](./image-5.png)
 
 ## Penjelasan mengenai pembagian tugas masing-masing anggota
 
 Server-side:
-Login: 13520103
-Register: 13520103
+User: 13520103
 Album: 13520108
-Lagu: 13520103
+Lagu: 13520135
 
 Client-side:
-Login: 13520103
-Register: 13520103
+User: 13520103
 Album: 13520108
-Lagu: 13520103
+Lagu: 13520135
