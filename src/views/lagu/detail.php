@@ -174,5 +174,13 @@ use function MusicApp\Core\has;
                 </div>
             </div>
             <!-- Music player section end -->
+            <? 
+                if(has('flash')) {
+                    $errors = get('flash')['errors'] ?? [];
+                    if ($errors) {
+                        echo '<script>alert("Error: ' . implode('\n', array_map(fn($k) => $k . ':' . $errors[$k], array_keys($errors))) . '")</script>';
+                    }
+                }
+            ?>
         </body>
     </html>

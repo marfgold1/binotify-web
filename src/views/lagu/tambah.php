@@ -2,6 +2,9 @@
 include_once __DIR__ . '/../navbar.inc.php';
 
 use function MusicApp\Core\echoSidebar;
+use function MusicApp\Core\get;
+use function MusicApp\Core\has;
+
 ?>
 <!DOCTYPE html>
     <html lang="en">
@@ -20,6 +23,11 @@ use function MusicApp\Core\echoSidebar;
                 Non-user: home, search, login, register
              -->
             <? echoSidebar(); ?>
+            <?
+                $flash = get('flash');
+                $errors = $flash['errors'] ?? [];
+                $values = $flash['values'] ?? [];
+            ?>
             <!-- Sidebar end -->
             <div class="modal">
                 <div class="text">Tambah Lagu</div>
@@ -32,6 +40,7 @@ use function MusicApp\Core\echoSidebar;
                                 autocomplete="off"
                                 name = "judul"
                                 required
+                                value="<?= $values['judul'] ?? '' ?>"
                             />
                         </div>
                         <div class="data">
@@ -40,6 +49,7 @@ use function MusicApp\Core\echoSidebar;
                                 type="text"
                                 autocomplete="off"
                                 name = "penyanyi"
+                                value="<?= $values['penyanyi'] ?? '' ?>"
                             />
                         </div>
                         <div class="data">
@@ -49,6 +59,7 @@ use function MusicApp\Core\echoSidebar;
                                 autocomplete="off"
                                 name="tanggal_terbit"
                                 required
+                                value="<?= $values['tanggal_terbit'] ?? '' ?>"
                             />
                         </div>
                         <div class="data">
@@ -57,6 +68,7 @@ use function MusicApp\Core\echoSidebar;
                                 type="text"
                                 autocomplete="off"
                                 name="genre"
+                                value="<?= $values['genre'] ?? '' ?>"
                             />
                         </div>
                         <div class="data">
@@ -90,5 +102,9 @@ use function MusicApp\Core\echoSidebar;
                     </div>
                 </form>
             </div>
+            <? 
+                if(has('flash'))
+                    echo '<script>alert("Error: ' . implode('\n', array_map(fn($k) => $k . ':' . $errors[$k], array_keys($errors))) . '")</script>';
+            ?>
         </body>
 </html>
