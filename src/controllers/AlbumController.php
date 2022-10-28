@@ -25,20 +25,10 @@ class AlbumController extends Controller
     {
         $listSong = Song::find('album_id = ?', [$id]);
         $album = Album::get($id);
-        if (has('user')) {
-            $user = get('user');
-            if ($user->isAdmin) {
-                view('album.detail-album-admin', ['listLagu' => $listSong, 'album' => $album]);
-            }
-
-        }
-        view('album.detail-album-user', ['listLagu' => $listSong, 'album' => $album]);
+        view('album.detail-album-admin', ['listLagu' => $listSong, 'album' => $album]);
     }
 
         
-
-
-
     public function formAlbum()
     {
         view('album.form-album');
@@ -47,8 +37,8 @@ class AlbumController extends Controller
     public function formLagu($album_id)
     {
         $penyanyi = Album::get($album_id)->penyanyi;
-        $lagu = Song::find('album_id = ?', [$album_id]);
-        view('album.form-lagu', ['penyanyi' => $penyanyi, 'lagu' => $lagu]);
+        $lagu = Song::find('penyanyi = ? AND album_id IS NULL', [$penyanyi]);
+        view('album.form-lagu', ['listLagu' => $lagu, 'album_id' => $album_id]);
     }
 
     public function showListAlbum()
@@ -98,10 +88,10 @@ class AlbumController extends Controller
 
     public function tambahLagu($album_id, $song_id)
     {
+
         $lagu = Song::get($song_id);
         $lagu->album_id = $album_id;
         $lagu->save();
-        back()->with(['success' => 'Lagu berhasil ditambahkan']);
     }
 
     public function hapusLagu($song_id)
