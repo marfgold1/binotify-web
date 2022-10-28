@@ -17,6 +17,7 @@ class Validation {
     const T_STRING = 'string';
     const T_INT = 'int';
     const T_BOOL = 'bool';
+    const T_DATE = 'date';
 
     const ERROR_MESSAGE = [
         Validation::REGEX => 'Invalid format for field %s',
@@ -30,6 +31,7 @@ class Validation {
         Validation::T_STRING => '%s is not a valid string',
         Validation::T_INT => '%s is not a valid integer',
         Validation::T_BOOL => '%s is not a valid boolean',
+        Validation::T_DATE => '%s is not a valid date',
     ];
 
     public static function validate(array $opts, string $fieldName, mixed $value, array $field) : ?string {
@@ -92,6 +94,10 @@ class Validation {
                 case Validation::T_BOOL:
                     if (!is_bool($field))
                         return sprintf(Validation::ERROR_MESSAGE[Validation::T_BOOL], $fieldName);
+                    break;
+                case Validation::T_DATE:
+                    if (!is_string($field) || !strtotime($field))
+                        return sprintf(Validation::ERROR_MESSAGE[Validation::T_DATE], $fieldName);
                     break;
             }
         }

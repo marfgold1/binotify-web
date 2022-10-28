@@ -110,7 +110,7 @@ abstract class Model implements JsonSerializable {
             implode('', array_map(  // foreign keys
                 fn($f) =>
                     ", FOREIGN KEY (`$f`) REFERENCES `" . $foreignKeys[$f]->refModel .
-                    "`(`" . $foreignKeys[$f]->refColumn . "`)",
+                    "`(`" . $foreignKeys[$f]->refColumn . "`) " . $foreignKeys[$f]->opt,
                 array_keys($foreignKeys)
             )) .
         ")";

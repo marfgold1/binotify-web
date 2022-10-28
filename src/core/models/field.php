@@ -75,10 +75,12 @@ interface FieldProperty {}
 class ForeignKey implements FieldProperty {
     public string $refModel;
     public string $refColumn;
+    public string $opt;
 
-    public function __construct(string $refModel, string $refColumn) {
+    public function __construct(string $refModel, string $refColumn, string $opt) {
         $this->refModel = $refModel;
         $this->refColumn = $refColumn;
+        $this->opt = $opt;
     }
 }
 

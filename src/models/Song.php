@@ -26,7 +26,7 @@ class Song extends Model {
     #[Field()]
     protected ?string $image_path = null; // Image_path char(256)
     #[Field([], PDO::PARAM_INT)]
-    #[ForeignKey('album', 'album_id')]
+    #[ForeignKey('album', 'album_id', 'ON DELETE CASCADE')]
     protected ?int $album_id = null; // Album_id int REFERENCES album(album_id)
 }
 Album::load();
