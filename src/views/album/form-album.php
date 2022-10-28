@@ -61,7 +61,7 @@ use function MusicApp\Core\echoSidebar;
                             />
                         </div>
                         <div class="data">
-                            <label>File Cover Photo</label>
+                            <label>File Cover Photo*</label>
                             <input
                                 type="file"
                                 autocomplete="off"

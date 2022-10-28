@@ -6,13 +6,18 @@ use MusicApp\Core\Models\Validation;
 use MusicApp\Models\User;
 
 use function MusicApp\Core\back;
+use function MusicApp\Core\has;
+use function MusicApp\Core\remove;
 use function MusicApp\Core\route;
 use function MusicApp\Core\set;
 use function MusicApp\Core\view;
 
 class AuthController extends Controller {
     public function loginForm() {
-        view('auth.login');
+        if (has('user'))
+            route('home');
+        else
+            view('auth.login');
     }
 
     public function login() {
@@ -48,7 +53,10 @@ class AuthController extends Controller {
     }
 
     public function registerForm() {
-        view('auth.register');
+        if (has('user'))
+            route('home');
+        else
+            view('auth.register');
     }
 
     public function register() {
@@ -98,7 +106,7 @@ class AuthController extends Controller {
     }
 
     public function logout() {
-        unset($_SESSION['user']);
+        remove('user');
         route('home');
     }
 

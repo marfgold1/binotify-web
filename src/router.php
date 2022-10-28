@@ -6,10 +6,12 @@ use MusicApp\Controllers\AuthController;
 use MusicApp\Controllers\HomeController;
 use MusicApp\Controllers\LaguController;
 use MusicApp\Controllers\AlbumController;
+use MusicApp\Controllers\SearchController;
 use MusicApp\Core\Route;
 // ===================
 
 // Import controller here
+
 
 // Define routes here
 Route::get('/home', [HomeController::class, 'home'])->name('home');
@@ -20,7 +22,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/check/username/:username', [AuthController::class, 'checkUsername']);
 Route::post('/check/email/:email', [AuthController::class, 'checkEmail']);
-Route::get('/search', [HomeController::class, 'search'])->name('search');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::group('/lagu', function() {
     Route::post('/', [LaguController::class, 'store']);
     Route::get('/create', [LaguController::class, 'create'])->name('lagu.tambah');

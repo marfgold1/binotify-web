@@ -14,8 +14,8 @@ class Album extends Model {
     protected ?string $judul = null;
     #[Field([Field::C_NULLABLE => false])]
     protected ?string $penyanyi = null;
-    #[Field([Field::C_NULLABLE => false], PDO::PARAM_INT)]
-    protected ?string $total_duration = null;
+    #[Field([Field::C_NULLABLE => false, Field::C_DEFAULT => 0], PDO::PARAM_INT)]
+    protected ?int $total_duration = null;
     #[Field([Field::C_NULLABLE => false])]
     protected ?string $image_path = null;
     #[Field([Field::C_NULLABLE => false])]

@@ -16,6 +16,12 @@ use function MusicApp\Core\view;
 
 class AlbumController extends Controller
 {
+    private const IMAGE_DIR = __DIR__ . '/../public/image/';
+
+    public function __construct() {
+        if (!is_dir(self::IMAGE_DIR)) mkdir(self::IMAGE_DIR);
+    }
+
     public function daftarAlbum()
     {
         view('album.daftar-album');
@@ -65,10 +71,10 @@ class AlbumController extends Controller
         $album = Album::get($album_id);
         $album->penyanyi = $_POST['penyanyi'];
         $album->judul = $_POST['judul'];
-        if (isset($_FILES)) {
-            $namaFile = $_FILES['berkas']['name'];
-        $fileLocation = "/public/img/" . $namaFile;
-        $album->image_path = $fileLocation;
+        if (isset($_FILES['berkas']) && is_uploaded_file($_FILES['berkas']['tmp_name'])) {
+            $namaFile = time() . '-albumart.' . pathinfo($_FILES['berkas']['name'], PATHINFO_EXTENSION);
+            move_uploaded_file($_FILES['berkas']['tmp_name'], self::IMAGE_DIR . $namaFile);
+            $album->image_path = $namaFile;
         }
         $album->save();
         route('album.daftar-album')->with(['success' => 'Album berhasil diubah']);
@@ -90,7 +96,7 @@ class AlbumController extends Controller
         $album->judul = $_POST['judul'];
         $album->image_path = $fileLocation;
         $album->tanggal_terbit = $_POST['tanggal_terbit'];
-        $album->total_duration = 100;
+        $album->total_duration = 0;
         $album->save();
         route('album.daftar-album')->with(['success' => 'Album berhasil ditambahkan']);
     }

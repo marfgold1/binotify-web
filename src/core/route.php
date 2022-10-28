@@ -137,10 +137,11 @@ class Route {
         $urlpath = ['', '/create', '/:id', '/:id/edit', '', '/:id', '/:id'];
         $methods = ['GET', 'GET', 'GET', 'GET', 'POST', 'PUT', 'DELETE'];
         // frontend
-        $only = $opts['only'] ?? [];
+        $exclude = $opts['exclude'] ?? [];
+        $only = $opts['only'] ?? $actions;
         foreach ($actions as $i => $action) {
-            if (in_array($action, $only))
-                self::{$methods[$i]}($path . $urlpath[$i], [$className, $action]);
+            if (in_array($action, $only) || !in_array($action, $exclude))
+                self::{$methods[$i]}($path . '/' . $urlpath[$i], [$className, $action]);
         }
     }
 }
