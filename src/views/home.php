@@ -14,7 +14,7 @@ use function MusicApp\Core\echoSidebar;
     </head>
     <body>
         <? echoSidebar(); ?>
-        <section class="container fullw">
+        <div class="content">
             <!-- Hero section start -->
             <section class="hero">
                 <h1 class="big-header">Home</h1>
@@ -63,6 +63,6 @@ use function MusicApp\Core\echoSidebar;
                 <? endif ?>
             </section>
             <!-- List container end -->
-        </section>
+                </div>
     </body>
 </html>
