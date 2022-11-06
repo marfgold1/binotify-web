@@ -226,6 +226,7 @@ abstract class Model implements JsonSerializable {
 
     public function set(array $map) : void {
         foreach ($map as $key => $value) $this->$key = $value;
+        $this->isDirty = true;
     }
 
     protected function bind(?PDOStatement &$stmt, ?array $keys=null) : ?PDOStatement {
