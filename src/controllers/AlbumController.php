@@ -31,12 +31,11 @@ class AlbumController extends Controller
     {
         $listSong = Song::find('album_id = ?', [$id]);
         $album = Album::get($id);
-        if (has('user')) {
-            if (get('user')->role == 'admin') {
-                view('album.detail-album-admin', ['listLagu' => $listSong, 'album' => $album]);
-            }
+        if (has('user') && get('user')->isAdmin) {
+            view('album.detail-album-admin', ['listLagu' => $listSong, 'album' => $album]);
+        } else {
+            view('album.detail-album-user', ['listLagu' => $listSong, 'album' => $album]);
         }
-        view('album.detail-album-user', ['listLagu' => $listSong, 'album' => $album]);
     }
 
         
@@ -89,12 +88,14 @@ class AlbumController extends Controller
 
     public function tambahAlbum()
     {
-        $namaFile = $_FILES['image_path']['name'];
-        $fileLocation = "/public/img/" . $namaFile;
         $album = new Album();
+        if (is_uploaded_file($_FILES['image_path']['tmp_name'])) {
+            $namaFile = time() . '-albumart.' . pathinfo($_FILES['berkas']['name'], PATHINFO_EXTENSION);
+            move_uploaded_file($_FILES['berkas']['tmp_name'], self::IMAGE_DIR . $namaFile);
+            $album->image_path = $namaFile;
+        }
         $album->penyanyi = $_POST['penyanyi'];
         $album->judul = $_POST['judul'];
-        $album->image_path = $fileLocation;
         $album->tanggal_terbit = $_POST['tanggal_terbit'];
         $album->total_duration = 0;
         $album->save();
@@ -103,15 +104,21 @@ class AlbumController extends Controller
 
     public function tambahLagu($album_id, $song_id)
     {
-
+        $album = Album::get($album_id);
         $lagu = Song::get($song_id);
+        $album->total_duration += $lagu->duration;
+        $album->save();
         $lagu->album_id = $album_id;
         $lagu->save();
+        back();
     }
 
-    public function hapusLagu($song_id)
+    public function hapusLagu($album_id, $song_id)
     {
+        $album = Album::get($album_id);
         $lagu = Song::get($song_id);
+        $album->total_duration -= $lagu->duration;
+        $album->save();
         $lagu->album_id = null;
         $lagu->save();
         back()->with(['success' => 'Lagu berhasil dihapus']);

@@ -38,7 +38,7 @@ Route::group('album', function() {
     Route::post('/create', [AlbumController::class, 'tambahAlbum']);
     Route::get('/add/:album_id', [AlbumController::class, 'formLagu'])->name('album.form-lagu');
     Route::post('/:album_id/delete', [AlbumController::class, 'hapusAlbum']);
-    Route::post('/remove/:song_id', [AlbumController::class, 'hapusLagu']);
+    Route::post('/:album_id/delete/:song_id', [AlbumController::class, 'hapusLagu']);
     Route::get('/:id', [AlbumController::class, 'detailAlbum'])->name('album.detail-album');
     Route::post('/:album_id', [AlbumController::class, 'changeData']);
 });
