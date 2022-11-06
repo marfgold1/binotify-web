@@ -15,7 +15,7 @@ include __DIR__ . '/template.inc1.php';
                     <div class='album'>
                         <div class='album-info'>
                             <div class='album-info-art'>
-                                <img id="cover" src='<?= $album->image_path?>' />
+                                <img id="cover" src='/public/image/<?= $album->image_path?>' />
                             </div>
                             <div class='album-info-meta'>
                                 <span class='txt-field-grey'> <input type='text' name='penyanyi' required value='<?= $album->penyanyi ?>'></span>
@@ -48,17 +48,18 @@ include __DIR__ . '/template.inc1.php';
         </thead>
         <tbody class="tracks">
             <?php $i = 1;
+            if($listLagu):
             foreach ($listLagu as $lagu) : ?>
-                <form action="/album/remove/<?= $lagu->song_id?>" method="post">
+                <form action="/album/<?= $lagu->album_id ?>/delete/<?= $lagu->song_id?>" method="post">
                 <tr class='track'>
-                    <td ><a href='/song/<?= $lagu->song_id?>'><div class="track-text"> <?= $i ?></div></a></td>
-                    <td ><a href='/song/<?= $lagu->song_id?>'><div class='track-title'> <img src='/public/img/cover2.jpg' /><?= $lagu->judul ?></div></a></td>
-                    <td ><a href='/song/<?= $lagu->song_id?>'><div class='track-text'> <?= intdiv($lagu->duration, 60) . ":" . $lagu->duration % 60 ?></div></a></td>
-                    <td ><a href='/song/<?= $lagu->song_id?>'><div class='track-button'> <button type="submit" class="delete">Delete</button></div></a></td>
+                    <td ><a href='/lagu/<?= $lagu->song_id?>'><div class="track-text"> <?= $i ?></div></a></td>
+                    <td ><a href='/lagu/<?= $lagu->song_id?>'><div class='track-title'> <img src='/public/image/<?= $lagu->image_path ?>' /><?= $lagu->judul ?></div></a></td>
+                    <td ><a href='/lagu/<?= $lagu->song_id?>'><div class='track-text'> <?= intdiv($lagu->duration, 60) . ":" . $lagu->duration % 60 ?></div></a></td>
+                    <td ><a href='/lagu/<?= $lagu->song_id?>'><div class='track-button'> <button type="submit" class="delete">Delete</button></div></a></td>
                 </tr>
                 </form>
             <?php $i++;
-            endforeach; ?>
+            endforeach; endif; ?>
         </tbody>
     </table>
     </div>

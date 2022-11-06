@@ -14,7 +14,7 @@ include __DIR__ . '/template.inc1.php'; ?>
                 <div class='album'>
                     <div class='album-info'>
                         <div class='album-info-art'>
-                            <img src='<? $album->image_path ?>' />
+                            <img src='/public/image/<? $album->image_path ?>' />
                         </div>
                         <div class='album-info-meta'>
                             <span class='txt-field-grey'> <?= $album->penyanyi ?></span>
@@ -33,14 +33,15 @@ include __DIR__ . '/template.inc1.php'; ?>
                     </thead>
                     <tbody class="tracks">
                         <?php $i = 1;
+                        if($listLagu):
                         foreach ($listLagu as $lagu) : ?>
                             <tr class='track'>
-                                <td ><a href='/song/<?= $lagu->song_id?>'><div class="track-text"> <?= $i ?></div></a></td>
-                                <td ><a href='/song/<?= $lagu->song_id?>'><div class='track-title'> <img src='<? $lagu->image_path?>' /><?= $lagu->judul ?></div></a></td>
-                                <td ><a href='/song/<?= $lagu->song_id?>'><div class='track-text'> <?= intdiv($lagu->duration, 60) . ":" . $lagu->duration % 60 ?></div></a></td>
+                                <td ><a href='/lagu/<?= $lagu->song_id?>'><div class="track-text"> <?= $i ?></div></a></td>
+                                <td ><a href='/lagu/<?= $lagu->song_id?>'><div class='track-title'> <img src='<? $lagu->image_path?>' /><?= $lagu->judul ?></div></a></td>
+                                <td ><a href='/lagu/<?= $lagu->song_id?>'><div class='track-text'> <?= intdiv($lagu->duration, 60) . ":" . $lagu->duration % 60 ?></div></a></td>
                             </tr>
                         <?php $i++;
-                        endforeach; ?>
+                        endforeach; endif;?>
                     </tbody>
                 </table>
             </div>

@@ -18,27 +18,4 @@
         <div class="title">
             <h1>Binofity</h1>
         </div>
-        <div class="search">
-            <input type="search" placeholder="Search" />
-        </div>
-        <div class="arrow">
-            <div class="arrow-left">
-                <a href="<? //BASEURL; ?>/Album"><img src="/public/img/arrow-left.png" alt="arrow-left" /></a>
-            </div>
-            <div class="arrow-right">
-                <a href="<? //BASEURL; ?>/Album"><img src="/public/img/arrow-right.png" alt="arrow-right" /></a>
-            </div>
-        </div>
-        <div class="user">
-            <div class="user-info">
-                <span class="user-info-name">
-                    <span class="first">Bariza</span>
-                    <span class="last">Haqi</span>
-                </span>
-            </div>
-            <div class="user-actions">
-                <button class="button-dark register">Register</button>
-                <button class="button-dark login">Log Out</button>
-            </div>
-        </div>
     </section>

@@ -22,7 +22,7 @@ function loadDoc(id) {
             list.models.forEach(function (item) {
                 table += "<tr class='track'>";
                 table += "<td><a href='/album/" + item.album_id + "'><div class='track-text'>" + i + "</div></a></td>";
-                table += "<td><a href='/album/" + item.album_id + "'><div class='track-title'><img src='public/img/cover1.jpg'><div class='name-album'><span class='title'>" + item.judul + "</span><span class='artist'>" + item.penyanyi + "</span></div></div></a></td>";
+                table += "<td><a href='/album/" + item.album_id + "'><div class='track-title'><img src='/public/image/" + item.image_path + "'><div class='name-album'><span class='title'>" + item.judul + "</span><span class='artist'>" + item.penyanyi + "</span></div></div></a></td>";
                 table += "<td><a href='/album/" + item.album_id + "'><div class='track-text'>" + item.tanggal_terbit.substr(0, 4) + "</div></a></td>";
                 table += "<td><a href='/album/" + item.album_id + "'><div class='track-text'>" + item.penyanyi + "</div></a></td>";
                 table += "</tr>";
