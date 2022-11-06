@@ -3,6 +3,18 @@ include_once __DIR__ . '/../navbar.inc.php';
 use function MusicApp\Core\echoSidebar;
 use function MusicApp\Core\get;
 use function MusicApp\Core\has;
+use function MusicApp\Core\set;
+
+if (has('PLAY_COUNT')) {
+    if (get('PLAY_DATE') != date("Y-m-d")) {
+        set('PLAY_COUNT', 1);
+        set('PLAY_DATE', date("Y-m-d"));
+    } else
+        set('PLAY_COUNT', get('PLAY_COUNT') + 1);
+} else {
+    set('PLAY_DATE', date("Y-m-d"));
+    set('PLAY_COUNT', 1);
+}
 
 ?>
 <!DOCTYPE html>
@@ -151,6 +163,7 @@ use function MusicApp\Core\has;
                 <!-- Now playing widget section end -->
 
                 <!-- Player control section start -->
+                <? if (has('user') || get('PLAY_COUNT') < 4): ?>
                 <div class="player-control">
                     <div class="control-button">
                         <i class="shuffle-button"></i>
@@ -172,6 +185,7 @@ use function MusicApp\Core\has;
                         <span id="max-duration" class="max-duration">0:00</span>
                     </div>
                 </div>
+                <? endif; ?>
             </div>
             <!-- Music player section end -->
             <? 
