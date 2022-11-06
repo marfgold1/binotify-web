@@ -3,6 +3,7 @@ namespace MusicApp\Controllers;
 
 use MusicApp\Core\Controller;
 use MusicApp\Core\Models\Validation;
+use MusicApp\Models\Album;
 use MusicApp\Models\Song;
 
 use function MusicApp\Core\back;
@@ -109,19 +110,26 @@ class LaguController extends Controller {
         $song = Song::get($id);
         if ($song === null) {
             route('home');
-        } else {            
+        } else {
             $flash = [
                 'errors' => [],
                 'values' => [
                     'judul' => $_POST['judul'] ?? null,
                     'tanggal_terbit' => $_POST['tanggal_terbit'] ?? null,
                     'genre' => $_POST['genre'] ?? null,
-                    'duration' => intval($_POST['duration']) ?? null,
+                    'duration' => $_POST['duration'] ? intval($_POST['duration']) : null,
                 ]
             ];
             $flash['values'] = array_filter($flash['values'], function($value) {
                 return $value !== null;
             });
+
+            $album = null;
+            if ($song->album_id !== null && isset($flash['values']['duration'])) {
+                $album = Album::get($song->album_id);
+                $album->total_duration -= $song->duration;
+                $album->total_duration += $flash['values']['duration'];
+            }
 
             // Validasi
             $song->set($flash['values']);
@@ -129,7 +137,7 @@ class LaguController extends Controller {
                 'judul' => [Validation::REQUIRED, Validation::MAX => 64],
                 'tanggal_terbit' => [Validation::REQUIRED, Validation::TYPE => Validation::T_DATE],
                 'genre' => [Validation::MAX => 64],
-                'duration' => [Validation::REQUIRED, Validation::TYPE => Validation::T_INT],
+                'duration' => [Validation::TYPE => Validation::T_INT],
             ]);
 
             if (count($flash['errors']) > 0) {
@@ -164,6 +172,8 @@ class LaguController extends Controller {
                 $song->audio_path = $namaFileAudio;
             }
             $song->save();
+            if ($album) // defer saving for total_duration change album
+                $album->save();
 
             // Alert berhasil mengubah lagu
             back()->flash('Berhasil mengubah lagu!');
