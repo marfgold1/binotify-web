@@ -1,6 +1,10 @@
 <?
 include_once 'navbar.inc.php'; 
 use function MusicApp\Core\echoSidebar;
+use function MusicApp\Core\get;
+use function MusicApp\Core\getFlash;
+
+$values = getFlash();
 ?>
 
 <!DOCTYPE html>
@@ -37,18 +41,28 @@ use function MusicApp\Core\echoSidebar;
                         <form action="" method="GET">
                         <th><input type="submit" /></th>
                         <th>
-                        <input type="text" name="judul" placeholder="Cari Judul" />
-                          <select name="sort_judul"><option value="ASC">Ascending</option><option value="DESC">Descending</option></select>
+                        <input type="text" name="judul" placeholder="Cari Judul" value="<?= $values['judul'] ?>" />
+                          <select name="sort_judul">
+                            <option value="ASC" <?= $values['sort_judul'] !== 'DESC' ? 'selected':'' ?>>Ascending</option>
+                            <option value="DESC" <?= $values['sort_judul'] === 'DESC' ? 'selected':'' ?>>Descending</option>
+                          </select>
                         </th>
-                        <th><input type="text" name="penyanyi" placeholder="Cari Penyanyi" />
+                        <th><input type="text" name="penyanyi" placeholder="Cari Penyanyi" value="<?= $values['penyanyi'] ?>" />
                         </th>
-                        <th><input type="text" name="tahun" placeholder="Cari Tahun Terbit" />
-                          <select name="sort_tahun"><option value="ASC">Ascending</option><option value="DESC">Descending</option></select></th>
+                        <th><input type="text" name="tahun" placeholder="Cari Tahun Terbit" value="<?= $values['tahun'] ?>" />
+                          <select name="sort_tahun">
+                            <option value="" <?= $values['sort_tahun'] !== 'ASC' && $values['sort_tahun'] !== 'DESC' ? 'selected':'' ?>>Default</option>
+                            <option value="ASC" <?= $values['sort_tahun'] === 'ASC' ? 'selected':'' ?>>Ascending</option>
+                            <option value="DESC" <?= $values['sort_tahun'] === 'DESC' ? 'selected':'' ?>>Descending</option>
+                          </select>
+                        </th>
                         <th>
                           <select name="genre">
+                            <option value="" <?= $values['genre'] === null || $values['genre'] === '' ? 'selected':'' ?>>Semua</option>;
                             <?
                             foreach ($genre as $g) {
-                              echo "<option value='$g'>$g</option>";
+                                $selected = $values['genre'] === $g ? 'selected':'';
+                                echo "<option value='$g' $selected>$g</option>";
                             } ?>
                           </select>
                         </th>

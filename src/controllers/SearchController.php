@@ -9,10 +9,20 @@ use function MusicApp\Core\view;
 
 class SearchController extends Controller {
     public function search() {
-        $cond = '(judul LIKE ? OR penyanyi LIKE ? OR YEAR(tanggal_terbit) LIKE ?)';
+        $flash = [
+            'values' => [
+                'judul' => $_GET['judul'] ?? null,
+                'penyanyi' => $_GET['penyanyi'] ?? null,
+                'tahun' => $_GET['tahun'] ?? null,
+                'genre' => $_GET['genre'] ?? null,
+                'sort_judul' => $_GET['sort_judul'] ?? null,
+                'sort_tahun' => $_GET['sort_tahun'] ?? null,
+            ]
+        ];
+        $cond = '(judul LIKE ? AND penyanyi LIKE ? AND YEAR(tanggal_terbit) LIKE ?)';
         $params = [$_GET['judul'] ?? '', $_GET['penyanyi'] ?? '', $_GET['tahun'] ?? ''];
         $params = array_map((fn($param) => '%' . $param . '%'), $params);
-        if (isset($_GET['genre'])) {
+        if ($_GET['genre'] ?? null) {
             $cond .= ' AND genre = ?';
             $params[] = $_GET['genre'];
         }
@@ -28,7 +38,7 @@ class SearchController extends Controller {
         );
         $genre = Database::get()->query('SELECT DISTINCT genre FROM song')->fetchAll();
         $genre = array_values(array_map(fn($g) => $g['genre'], $genre));
-        view('search', ['songs' => $songs, 'genre' => $genre]);
+        view('search', ['songs' => $songs, 'genre' => $genre])->flash($flash);
     }
 }
 ?>
