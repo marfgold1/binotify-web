@@ -11,8 +11,7 @@
                     <script src="/public/js/duration_calc.js" crossorigin="anonymous" defer></script>
                     <link rel="stylesheet" href="/public/css/style.css">
                 </head>
-                <body>
-                    <div class="container fullh">
+                <body> 
         HEADER;
     }
     function showlogo() {
@@ -20,7 +19,6 @@
     }
     function endhtml() {
         echo <<<FOOTER
-                    </div>
                 </body>
             </html>
         FOOTER;
