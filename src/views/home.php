@@ -51,7 +51,7 @@
                         <?php endforeach; ?>
                     </table>
                     <? else: ?>
-                    <p>There are no songs yet.</p>
+                    <p class="no-songs">Lagu belum tersedia.</p>
                     <? endif ?>
                 </section>
                 <!-- List container end -->

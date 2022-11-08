@@ -71,7 +71,7 @@ use function MusicApp\Core\echoSidebar;
                                 required
                             />
                         </div>
-                        <button type="submit" class="btn">Tambah Lagu</button>
+                        <button type="submit" class="btn">Tambah Album</button>
                     </div>
                 </form>
             </div>
