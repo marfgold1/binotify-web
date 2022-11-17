@@ -8,7 +8,9 @@ include __DIR__ . '/template.inc1.php';
     <div class="content-middle">
         <div class="albums-content">
             <div class="album-actions">
+                <?php if ($admin): ?>
                 <form action="/album/<?=$album->album_id?>" method="post" enctype="multipart/form-data">
+                    <?php endif; ?>
                     <div class='albums-head'>
                         <span class='section-title'> Album <?= $album->judul ?></span>
                     </div>
@@ -18,7 +20,8 @@ include __DIR__ . '/template.inc1.php';
                                 <img id="cover" src='/public/image/<?= $album->image_path?>' />
                             </div>
                             <div class='album-info-meta'>
-                                <span class='txt-field-grey'> <input type='text' name='penyanyi' required value='<?= $album->penyanyi ?>'></span>
+                                <?php if ($admin): ?>
+                                <span class='txt-field-grey'> <?= $album->penyanyi ?></span>
                                 <span class='txt-field-white'> <input type='text' name='judul' required value='<?= $album->judul ?>'></span>
                                 <span class='txt-field-grey'><?= intdiv($album->total_duration, 60) . ":" . $album->total_duration % 60 ?></span>
                                 <div class="input-file">
@@ -31,12 +34,22 @@ include __DIR__ . '/template.inc1.php';
                                     <input type="submit" value="Save edit" name="update-button">
                                     <button type="button" onclick="deleteAlbum();" class="delete-button" id="delete">Delete album</button>
                                 </div>
+                                <?php else: ?>
+                                    <span class='txt-field-grey'> <?= $album->penyanyi ?></span>
+                                    <span class='txt-field-white'> <?= $album->judul ?></span>
+                                    <span class='txt-field-grey'><?= intdiv($album->total_duration, 60) . ":" . $album->total_duration % 60 ?></span>
+                                <?php endif; ?>
+                                </div>
+                                </div>
+                                </div>
+                <?php if ($admin): ?>
                 </form>
+                <?php endif; ?>
             </div>
 
-        </div>
-    </div>
+    <?php if ($admin): ?>
     <button class="button-light save" onclick="window.location.href='/album/add/<?= $album->album_id?>'">Tambah lagu</button>
+    <?php endif; ?>
     <table class="album-tracks">
         <thead class="tracks-heading">
             <tr>
@@ -50,6 +63,7 @@ include __DIR__ . '/template.inc1.php';
             <?php $i = 1;
             if($listLagu):
             foreach ($listLagu as $lagu) : ?>
+                <?php if ($admin): ?>
                 <form action="/album/<?= $lagu->album_id ?>/delete/<?= $lagu->song_id?>" method="post">
                 <tr class='track'>
                     <td ><a href='/lagu/<?= $lagu->song_id?>'><div class="track-text"> <?= $i ?></div></a></td>
@@ -58,6 +72,13 @@ include __DIR__ . '/template.inc1.php';
                     <td ><a href='/lagu/<?= $lagu->song_id?>'><div class='track-button'> <button type="submit" class="delete">Delete</button></div></a></td>
                 </tr>
                 </form>
+                <?php else: ?>
+                    <tr class='track'>
+                        <td ><a href='/lagu/<?= $lagu->song_id?>'><div class="track-text"> <?= $i ?></div></a></td>
+                        <td ><a href='/lagu/<?= $lagu->song_id?>'><div class='track-title'> <img src='<? $lagu->image_path?>' /><?= $lagu->judul ?></div></a></td>
+                        <td ><a href='/lagu/<?= $lagu->song_id?>'><div class='track-text'> <?= intdiv($lagu->duration, 60) . ":" . $lagu->duration % 60 ?></div></a></td>
+                    </tr>
+                <?php endif; ?>
             <?php $i++;
             endforeach; endif; ?>
         </tbody>

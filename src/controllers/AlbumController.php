@@ -32,9 +32,9 @@ class AlbumController extends Controller
         $listSong = Song::find('album_id = ?', [$id]);
         $album = Album::get($id);
         if (has('user') && get('user')->isAdmin) {
-            view('album.detail-album-admin', ['listLagu' => $listSong, 'album' => $album]);
+            view('album.detail-album', ['listLagu' => $listSong, 'album' => $album, 'admin' => True]);
         } else {
-            view('album.detail-album-user', ['listLagu' => $listSong, 'album' => $album]);
+            view('album.detail-album', ['listLagu' => $listSong, 'album' => $album, 'admin' => False]);
         }
     }
 
@@ -68,7 +68,6 @@ class AlbumController extends Controller
     public function changeData($album_id)
     {
         $album = Album::get($album_id);
-        $album->penyanyi = $_POST['penyanyi'];
         $album->judul = $_POST['judul'];
         if (isset($_FILES['berkas']) && is_uploaded_file($_FILES['berkas']['tmp_name'])) {
             $namaFile = time() . '-albumart.' . pathinfo($_FILES['berkas']['name'], PATHINFO_EXTENSION);
@@ -81,6 +80,13 @@ class AlbumController extends Controller
     public function hapusAlbum($album_id)
     {
         $album = Album::get($album_id);
+        $listSong = Song::find('album_id = ?', [$album_id]);
+        if($listSong):
+            foreach ($listSong as $lagu):
+                $lagu->album_id = null;
+                $lagu->save();
+            endforeach; 
+        endif;
         $album->delete();
         route('album.daftar-album')->with(['success' => 'Album berhasil dihapus']);
         exit;
