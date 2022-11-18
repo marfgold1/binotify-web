@@ -1,6 +1,31 @@
-<?php
-include __DIR__ . '/template.inc1.php';
+<?
+include_once __DIR__ . '/../navbar.inc.php';
+
+use function MusicApp\Core\echoSidebar;
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Binofity</title>
+
+    <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/detail-album.css">
+   
+</head>
+
+<body id="start">
+<? echoSidebar(); ?>
+<div class="middle">
+    <section class="header">
+        <div class="title">
+            <h1>Album <?= $album->judul ?></h1>
+        </div>
+    </section>
 
 
 
@@ -11,9 +36,6 @@ include __DIR__ . '/template.inc1.php';
                 <?php if ($admin): ?>
                 <form action="/album/<?=$album->album_id?>" method="post" enctype="multipart/form-data">
                     <?php endif; ?>
-                    <div class='albums-head'>
-                        <span class='section-title'> Album <?= $album->judul ?></span>
-                    </div>
                     <div class='album'>
                         <div class='album-info'>
                             <div class='album-info-art'>
@@ -86,7 +108,7 @@ include __DIR__ . '/template.inc1.php';
     </div>
     </div>
 </section>
-
+</div>
 </body>
 <script type="text/javascript" src="/public/js/detail-album.js"></script>
 

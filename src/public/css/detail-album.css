@@ -1,4 +1,22 @@
-@import url(//db.onlinewebfonts.com/c/860c3ec7bbc5da3e97233ccecafe512e?family=Circular+Std+Book);
+
+.middle {
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  width: 410px;
+  padding: 30px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  z-index: 1;
+  margin-left: 100px;
+  width: 70%;
+}
+
+.header {
+  margin-left: 40%;
+}
+
 
 .content {
   display: grid;
@@ -44,7 +62,6 @@ thead {
 }
 
 td {
-  border-top: 1px solid #282828;
   height: 55px;
   vertical-align: middle;
   text-align: center;
@@ -62,9 +79,6 @@ td a {
   cursor: pointer;
 }
 
-.tracks .track:last-child {
-  border-bottom: 1px solid #282828;
-}
 
 .tracks .track-title {
   color: #fff;
@@ -342,6 +356,8 @@ input[type="submit"]:hover {
 
 .input-file {
   padding: 10px 10px;
+  font-size: 14px;
+  color: black;
 }
 
 input[type="file"] {

@@ -1,3 +1,20 @@
+.middle {
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    width: 410px;
+    padding: 30px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    z-index: 1;
+    margin-left: 100px;
+    width: 70%;
+  }
+.header {
+    margin-left: 40%;
+}
+
 .content {
     display: grid;
     flex-flow: row wrap;
@@ -126,26 +143,6 @@ td {
     background: #373737;
 }
 
-@media (max-width: 650px) {
-    .header .search {
-        width: 65%;
-        margin: 0;
-    }
-    .header .page-flows {
-        width: 20%;
-        margin: 0;
-   }
-    .header .search input {
-        width: 100%;
-        background-size: 7%;
-    }
-
-    .header .user {
-        width: 100%;
-        margin-top: 15px;
-        justify-content: space-around;
-    }
-}
 
 .content-bottom {
     display: flex;

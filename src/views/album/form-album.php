@@ -3,6 +3,7 @@ include_once __DIR__ . '/../navbar.inc.php';
 
 use function MusicApp\Core\echoSidebar;
 ?>
+
 <!DOCTYPE html>
     <html lang="en">
         <head>
