@@ -4,6 +4,7 @@ namespace MusicApp;
 
 use MusicApp\Controllers\AuthController;
 use MusicApp\Controllers\HomeController;
+use MusicApp\Controllers\DaftarUserController;
 use MusicApp\Controllers\LaguController;
 use MusicApp\Controllers\AlbumController;
 use MusicApp\Controllers\SearchController;
@@ -15,6 +16,7 @@ use MusicApp\Core\Route;
 
 // Define routes here
 Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::get('/user', [DaftarUserController::class, 'user'])->name('user');
 Route::get('/login', [AuthController::class, 'loginForm'])->name('auth.login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'registerForm'])->name('auth.register');

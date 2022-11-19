@@ -39,6 +39,11 @@ function echoSidebar () {
                 <span>Tambah Album</span>
             </a>
             </li>
+            <li>
+            <a href="/user">
+                <span>Daftar User</span>
+            </a>
+            </li>
             SBITEM;
         }
         echo <<<SBITEM
