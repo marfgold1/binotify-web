@@ -54,13 +54,24 @@ function echoSidebar () {
             </li>
             SBITEM;
         }
+        $user = get('user')->name;
         echo <<<SBITEM
             <li>
-            <form id="form-logout" action="/logout" method="post">
-                <a onclick="document.getElementById('form-logout').submit()" style="cursor: pointer;" >
-                    <span>Logout</span>
-                </a>
-            </form>
+                <div class="dropdown">
+                    <div class="select">
+                        <span>$user</span>
+                        <div class="caret"></div>
+                    </div>
+                    <ul class="menu">
+                    <li>
+                    <form id="form-logout" action="/logout" method="post">
+                        <a onclick="document.getElementById('form-logout').submit()" style="cursor: pointer;" >
+                            <span>Logout</span>
+                        </a>
+                    </form>
+                    </li>
+                </ul>
+                </div>
             </li>
             SBITEM;
     } else {
