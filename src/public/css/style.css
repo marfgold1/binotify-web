@@ -185,9 +185,13 @@ p.text {
 
 .sidebar ul li a {
     color: var(--secondary);
-    padding: 0 30px;
     text-decoration: none;
 }
+
+.sidebar li {
+    padding: 0 30px;
+}
+
 .sidebar ul li a:hover {
     color: var(--primary);
     transition: 0.4s;

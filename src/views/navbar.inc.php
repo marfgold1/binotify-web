@@ -45,6 +45,14 @@ function echoSidebar () {
             </a>
             </li>
             SBITEM;
+        } else {
+            echo <<<SBITEM
+            <li>
+            <a href="/home">
+                <span>Daftar Penyanyi Premium</span>
+            </a>
+            </li>
+            SBITEM;
         }
         echo <<<SBITEM
             <li>
