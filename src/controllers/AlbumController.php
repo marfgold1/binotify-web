@@ -75,7 +75,7 @@ class AlbumController extends Controller
             $album->image_path = $namaFile;
         }
         $album->save();
-        route('album.daftar-album')->with(['success' => 'Album berhasil diubah']);
+        back();
     }
     public function hapusAlbum($album_id)
     {
@@ -89,15 +89,14 @@ class AlbumController extends Controller
         endif;
         $album->delete();
         route('album.daftar-album')->with(['success' => 'Album berhasil dihapus']);
-        exit;
     }
 
     public function tambahAlbum()
     {
         $album = new Album();
         if (is_uploaded_file($_FILES['image_path']['tmp_name'])) {
-            $namaFile = time() . '-albumart.' . pathinfo($_FILES['berkas']['name'], PATHINFO_EXTENSION);
-            move_uploaded_file($_FILES['berkas']['tmp_name'], self::IMAGE_DIR . $namaFile);
+            $namaFile = time() . '-albumart.' . pathinfo($_FILES['image_path']['name'], PATHINFO_EXTENSION);
+            move_uploaded_file($_FILES['image_path']['tmp_name'], self::IMAGE_DIR . $namaFile);
             $album->image_path = $namaFile;
         }
         $album->penyanyi = $_POST['penyanyi'];

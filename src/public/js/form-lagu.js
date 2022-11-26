@@ -1,4 +1,4 @@
 function selectLagu() {
-    var form = document.querySelector('form');
+    var form = document.querySelectorAll('form')[1];
     form.submit();
 }

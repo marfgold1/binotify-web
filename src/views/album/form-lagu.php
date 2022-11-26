@@ -31,6 +31,7 @@ use function MusicApp\Core\echoSidebar;
 <section class="content">
     <div class="content-middle">
         <div class="daftar-album-content">
+        <?php if ($listLagu): ?>
             <table class="album-tracks">
                 <thead class="tracks-heading">
                     <tr>
@@ -55,6 +56,7 @@ use function MusicApp\Core\echoSidebar;
                     endforeach; ?>
                 </tbody>
             </table>
+            <?php endif; ?>
         </div>
     </div>
     <div class="content-bottom">

@@ -72,6 +72,7 @@ use function MusicApp\Core\echoSidebar;
     <?php if ($admin): ?>
     <button class="button-light save" onclick="window.location.href='/album/add/<?= $album->album_id?>'">Tambah lagu</button>
     <?php endif; ?>
+    <?php if($listLagu): ?>
     <table class="album-tracks">
         <thead class="tracks-heading">
             <tr>
@@ -83,7 +84,6 @@ use function MusicApp\Core\echoSidebar;
         </thead>
         <tbody class="tracks">
             <?php $i = 1;
-            if($listLagu):
             foreach ($listLagu as $lagu) : ?>
                 <?php if ($admin): ?>
                 <form action="/album/<?= $lagu->album_id ?>/delete/<?= $lagu->song_id?>" method="post">
@@ -100,11 +100,10 @@ use function MusicApp\Core\echoSidebar;
                         <td ><a href='/lagu/<?= $lagu->song_id?>'><div class='track-title'> <img src='<? $lagu->image_path?>' /><?= $lagu->judul ?></div></a></td>
                         <td ><a href='/lagu/<?= $lagu->song_id?>'><div class='track-text'> <?= intdiv($lagu->duration, 60) . ":" . $lagu->duration % 60 ?></div></a></td>
                     </tr>
-                <?php endif; ?>
-            <?php $i++;
-            endforeach; endif; ?>
+            <?php endif;  $i++; endforeach; ?>
         </tbody>
     </table>
+    <?php endif; ?>
     </div>
     </div>
 </section>
