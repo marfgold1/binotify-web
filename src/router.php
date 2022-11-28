@@ -8,6 +8,7 @@ use MusicApp\Controllers\DaftarUserController;
 use MusicApp\Controllers\LaguController;
 use MusicApp\Controllers\AlbumController;
 use MusicApp\Controllers\SearchController;
+use MusicApp\Controllers\PenyanyiController;
 use MusicApp\Core\Route;
 // ===================
 
@@ -43,5 +44,10 @@ Route::group('album', function() {
     Route::post('/:album_id/delete/:song_id', [AlbumController::class, 'hapusLagu']);
     Route::get('/:id', [AlbumController::class, 'detailAlbum'])->name('album.detail-album');
     Route::post('/:album_id', [AlbumController::class, 'changeData']);
+});
+Route::group('penyanyi', function() {
+    Route::get('/', [PenyanyiController::class, 'listPenyanyi'])->name('penyanyi.list-penyanyi');
+    Route::post('/:id', [PenyanyiController::class, 'Subscribe']);
+    Route::get('/:penyanyi', [PenyanyiController::class, 'listLagu'])->name('penyanyi.list-lagu');
 });
 ?>
