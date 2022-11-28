@@ -48,7 +48,7 @@ function echoSidebar () {
         } else {
             echo <<<SBITEM
             <li>
-            <a href="/home">
+            <a href="/penyanyi">
                 <span>Daftar Penyanyi Premium</span>
             </a>
             </li>
