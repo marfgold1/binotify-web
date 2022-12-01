@@ -9,6 +9,7 @@ use MusicApp\Controllers\LaguController;
 use MusicApp\Controllers\AlbumController;
 use MusicApp\Controllers\SearchController;
 use MusicApp\Controllers\PenyanyiController;
+use MusicApp\Controllers\WebhookController;
 use MusicApp\Core\Route;
 // ===================
 
@@ -26,6 +27,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/check/username/:username', [AuthController::class, 'checkUsername']);
 Route::post('/check/email/:email', [AuthController::class, 'checkEmail']);
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::post('/webhook/subscribe/:creator_id/:subscriber_id', [WebhookController::class, 'subscribe']);
 Route::group('/lagu', function() {
     Route::post('/', [LaguController::class, 'store']);
     Route::get('/create', [LaguController::class, 'create'])->name('lagu.tambah');

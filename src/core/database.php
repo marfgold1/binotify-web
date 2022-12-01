@@ -14,12 +14,12 @@ class Database extends PDO {
     public static function init() : void {
         static::$cache_config = [
             'dsn' => $_ENV["DB_NS"] ?? (
-                "mysql:host=" . ($_ENV["DB_SERVER"] ?? "localhost") .
+                "mysql:host=" . ($_ENV["DB_HOST"] ?? "localhost") .
                 ";port=" . ($_ENV["DB_PORT"] ?? 3306) .
                 ";dbname=" . ($_ENV["DB_NAME"] ?? "musicphpapp")
             ),
             'username' => $_ENV["DB_USER"] ?? "musicphpapp",
-            'password' => $_ENV["DB_PASSWORD"] ?? "musicenjoyer"
+            'password' => $_ENV["DB_PASS"] ?? "musicenjoyer"
         ];
     }
 
