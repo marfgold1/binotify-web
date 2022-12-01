@@ -18,11 +18,13 @@ class Field {
     const O_LENGTH = 'length';
 
     public string $name;
+    public int $type;
     protected string $sqltype="VARCHAR(255)";
     protected array $opts;
 
     public function __construct($opts=[], int|string $type=PDO::PARAM_STR) {
         // Usage #[Field(['nullable'=>true, 'autoIncrement'=>true, 'default'=>0], PDO::PARAM_INT)]
+        $this->type = is_string($type) ? PDO::PARAM_STR : $type;
         $this->opts = $opts;
         switch ($type) {
             case PDO::PARAM_INT:
