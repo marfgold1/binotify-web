@@ -40,6 +40,36 @@ class PenyanyiController extends Controller {
         $subscriber->subscriber_id = get('user')->user_id;
         $subscriber->status = "PENDING";
         $subscriber->save();
+
+        $options = [
+            'http' => [
+                'method' => 'POST',
+                'header' => "Authorization: Bearer {$_ENV['PHP_API_KEY']}\r\n" .
+                    "Content-Type: text/xml\r\n",
+                'content' => <<<XML
+                <?xml version='1.0' encoding='utf-8'?>
+                <soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'>
+                    <soap:Body>
+                        <ns:RequestSub xmlns:ns='http://service.soap.binotify.com/'>
+                            <CreatorId>$subscriber->creator_id</CreatorId>
+                            <SubscriberId>$subscriber->subscriber_id</SubscriberId>
+                        </ns:RequestSub>
+                    </soap:Body>
+                </soap:Envelope>
+                XML,
+                'timeout' => 1.5,
+            ],
+        ];
+        $context = stream_context_create($options);
+        $res = file_get_contents("http://{$_ENV['SOAP_HOST']}", false, $context);
+        $res = (
+            (int) simplexml_load_string($res)
+                ->children('S', true)
+                ->children('ns2', true)
+                ->children(null)
+                ->return
+        );
+
         back();
     }
 

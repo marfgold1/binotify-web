@@ -2,7 +2,6 @@ version: '3.9'
 services:
     web:
         build: src
-        container_name: ${APP_NAME:-music_php_web}
         env_file:
             - .env
             - ../.env

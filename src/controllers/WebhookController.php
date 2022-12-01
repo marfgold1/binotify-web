@@ -19,7 +19,7 @@ class WebhookController extends Controller {
             echo "invalid request of result type '$result' (should be 'ACCEPTED' or 'REJECTED')";
             return;
         }
-        die(var_dump($creator_id, $subscriber_id, $_POST['result'], $sub, $auth, $_ENV['PHP_API_KEY']));
+
         if ($sub) {
             $sub->status = $result;
             $sub->save();
