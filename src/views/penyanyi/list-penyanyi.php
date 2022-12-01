@@ -3,6 +3,23 @@ include_once __DIR__ . '/../navbar.inc.php';
 
 use function MusicApp\Core\echoSidebar;
 
+
+
+function curl_get_contents($url)
+{
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+  $data = curl_exec($ch);
+  curl_close($ch);
+  return $data;
+}
+
+$url = "http://host.docker.internal:3000/api/users/penyanyi";
+$listPenyanyi = json_decode(file_get_contents($url), true);
+
 ?>
 
 <!DOCTYPE html>
@@ -47,10 +64,10 @@ use function MusicApp\Core\echoSidebar;
                     ?>
                         <tr class='track'>
                             <td class="track-text"><?= $i ?></td>
-                            <td class='track-text'> <?= $penyanyi->penyanyi ?></td>
+                            <td class='track-text'> <?= $penyanyi["name"] ?></td>
                             <!-- ?php if ($listSubscribe.status = "ACCEPTED" OR "PENDING"): ?-->
                             <td class='track-button'><button onclick=subscribe() id="unsubscribing" class="delete" id="unsubscribing">Unsubscribe</button></td>
-                            <td class='track-button'><button onclick="window.location.href='/penyanyi/<?= $penyanyi->penyanyi ?>'" class="delete">View Lagu</button></td>
+                            <td class='track-button'><button onclick="window.location.href='/penyanyi/<?= $penyanyi["name"] ?>'" class="delete">View Lagu</button></td>
                             <!-- ?php else: ?
                             <td><div class='track-button'><button onclick=subscribe() id="subscribing" class="delete">Subscribe</button></div></td>
                             <td class="track-text">Belum Subscribe</td>-->
