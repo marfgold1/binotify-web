@@ -67,7 +67,7 @@ $listPenyanyi = json_decode(file_get_contents($url), true);
                             <td class='track-text'> <?= $penyanyi["name"] ?></td>
                             <!-- ?php if ($listSubscribe.status = "ACCEPTED" OR "PENDING"): ?-->
                             <td class='track-button'><button onclick=subscribe() id="unsubscribing" class="delete" id="unsubscribing">Unsubscribe</button></td>
-                            <td class='track-button'><button onclick="window.location.href='/penyanyi/<?= $penyanyi["name"] ?>'" class="delete">View Lagu</button></td>
+                            <td class='track-button'><button onclick="window.location.href='/penyanyi/<?= $penyanyi["user_id"] ?>'" class="delete">View Lagu</button></td>
                             <!-- ?php else: ?
                             <td><div class='track-button'><button onclick=subscribe() id="subscribing" class="delete">Subscribe</button></div></td>
                             <td class="track-text">Belum Subscribe</td>-->
