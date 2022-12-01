@@ -30,7 +30,7 @@
                     </tr>
                     <?php $i = 1; ?>
                     <?php foreach ($listLagu as $song) : ?>
-                    <tr onclick="window.location.href = '/lagu/<?= $song->song_id ?>'">
+                    <tr onclick="window.location.href = '/lagu/<?= $song["song_id"] ?>'">
                         <td class="number-play">
                             <div class="show-number"><?= $i; ?></div> 
                             <?php $i++; ?>
@@ -38,17 +38,7 @@
                                 <p>▶</p> 
                             </div>
                         </td>
-                        <td class="mini-info">
-                            <div class="mini-cover">
-                                <img id="mini-cover" src="/public/image/<?= $song->image_path ?>" alt="" />
-                            </div>
-                            <div class="mini-desc">
-                                <p id="mini-title" class="mini-title"><?= $song->judul ?></p>
-                                <p id="mini-artist" class="mini-artist">
-                                    <?= $song->penyanyi ?>
-                                </p>
-                            </div>
-                        </td>
+                        <td class='track-text'> <?= $song["judul"] ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </table>

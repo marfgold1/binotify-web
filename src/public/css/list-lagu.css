@@ -259,8 +259,6 @@ p.text {
 .content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     background: linear-gradient(115deg, #101010 20%, #212121 80%);
     height: 100vh;
     width: 100%;
@@ -399,3 +397,4 @@ tr[onclick]:hover {
     border-radius: 4px;
     background: #373737;
   }
+  
