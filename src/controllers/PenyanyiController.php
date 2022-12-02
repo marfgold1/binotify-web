@@ -17,27 +17,16 @@ class PenyanyiController extends Controller {
         if (!has('user') || get('user')->isAdmin) {
             redirect('/');
         }
-        $listPenyanyi = Song::find('penyanyi IS NOT NULL', [], 'ORDER BY penyanyi');
-        $listSubscribe = Subscription::find('subscriber_id = ?', [get('user')->user_id]);
-        view('penyanyi.list-penyanyi', ['listPenyanyi' => $listPenyanyi, 'listSubscribe' => $listSubscribe]);
+        $url = "http://{$_ENV['REST_HOST']}/users/penyanyi";
+        $listPenyanyi = json_decode(file_get_contents($url), true);
+        view('penyanyi.list-penyanyi', ['listPenyanyi' => $listPenyanyi]);
     }
 
     public function listLagu($penyanyi) {
         if (!has('user') || get('user')->isAdmin) {
             redirect('/');
         }
-        $url = "http://host.docker.internal:3000/api/songs/" . $penyanyi;
-        function curl_get_contents($url)
-        {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        $data = curl_exec($ch);
-        curl_close($ch);
-        return $data;
-        }
+        $url = "http://{$_ENV['REST_HOST']}/songs/" . $penyanyi;
         $listLagu = json_decode(file_get_contents($url), true);
         view('penyanyi.list-lagu', ['listLagu' => $listLagu]);
     }

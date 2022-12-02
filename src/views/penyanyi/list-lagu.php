@@ -17,8 +17,10 @@
     <div class = "page-container">
         <? echoSidebar() ?>
         <div class="content">
+            
             <section class="hero">
                 <h1 class="big-header">List Lagu Premium</h1>
+                
             </section>
 
             <section class="list-container">
@@ -27,18 +29,18 @@
                     <tr>
                         <th>#</th>
                         <th>JUDUL</th>
+                        <th> Play </th>
                     </tr>
                     <?php $i = 1; ?>
                     <?php foreach ($listLagu as $song) : ?>
-                    <tr onclick="window.location.href = '/lagu/<?= $song["song_id"] ?>'">
-                        <td class="number-play">
+                    <tr>
+                        <td>
                             <div class="show-number"><?= $i; ?></div> 
-                            <?php $i++; ?>
-                            <div class="show-play">
-                                <p>▶</p> 
-                            </div>
+                            <?php $i++; 
+                            ?>
                         </td>
                         <td class='track-text'> <?= $song["judul"] ?></td>
+                        <td><audio id="player" src=<?="http://{$_ENV['REST_HOST']}/{$song['audio_path']}" ?> controls preload='auto'></audio></td>
                     </tr>
                     <?php endforeach; ?>
                 </table>

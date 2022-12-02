@@ -306,7 +306,8 @@ p.text {
     /* min-width: 400px; */
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    width: 100%;
+    width: 75%;
+    margin: 0 auto;
     color: var(--primary);
 }
 
@@ -397,4 +398,9 @@ tr[onclick]:hover {
     border-radius: 4px;
     background: #373737;
   }
-  
+
+audio {
+    filter: sepia(20%) saturate(70%) grayscale(1) contrast(99%) invert(12%);
+    width: 200px;
+    height: 25px;
+}
