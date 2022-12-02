@@ -8,10 +8,15 @@ use MusicApp\Models\Song;
 use function MusicApp\Core\back;
 use function MusicApp\Core\view;
 use function MusicApp\Core\get;
+use function MusicApp\Core\has;
+use function MusicApp\Core\redirect;
 
 class PenyanyiController extends Controller {
 
     public function listPenyanyi() {
+        if (!has('user') || get('user')->role == 'admin') {
+            redirect('/');
+        }
         $listPenyanyi = Song::find('penyanyi IS NOT NULL', [], 'ORDER BY penyanyi');
         $listSubscribe = Subscription::find('subscriber_id = ?', [get('user')->user_id]);
         view('penyanyi.list-penyanyi', ['listPenyanyi' => $listPenyanyi, 'listSubscribe' => $listSubscribe]);
