@@ -22,6 +22,10 @@ Aplikasi musik berbasis web yang dijalankan menggunakan sebuah DBMS MySQL dan PH
 
 ## Screenshot tampilan aplikasi
 
+Halaman List Penyanyi Premium
+![image-7.png](./img/image-7.png)
+Halaman List Lagu Premium
+![image-8.png](./img/image-8.png)
 Halaman Register
 ![image.png](./img/image.png)
 Halaman Login
@@ -50,3 +54,8 @@ Client-side:
 -   User: 13520103
 -   Album: 13520018
 -   Lagu: 13520135
+
+- Perubahan Database: 13520103
+- Halaman List Penyanyi Premium: 13520018
+- Halaman List Lagu Premium: 13520139, 13520018
+- Endpoint Callback: 13520103
