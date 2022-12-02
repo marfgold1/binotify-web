@@ -11,6 +11,9 @@ use MusicApp\Controllers\SearchController;
 use MusicApp\Controllers\PenyanyiController;
 use MusicApp\Controllers\WebhookController;
 use MusicApp\Core\Route;
+
+use function MusicApp\Core\redirect;
+
 // ===================
 
 // Import controller here
@@ -52,5 +55,8 @@ Route::group('penyanyi', function() {
     Route::get('/', [PenyanyiController::class, 'listPenyanyi'])->name('penyanyi.list-penyanyi');
     Route::post('/:id', [PenyanyiController::class, 'Subscribe']);
     Route::get('/:penyanyi', [PenyanyiController::class, 'listLagu'])->name('penyanyi.list-lagu');
+});
+Route::default(function() {
+    return redirect('/');
 });
 ?>

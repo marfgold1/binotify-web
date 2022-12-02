@@ -70,6 +70,7 @@ class RouteItem {
 
 class Route {
     private static $routerList = [];
+    private static $defaultRoute = null;
     private static $tempPrefix = '';
 
     public static function route () {
@@ -82,8 +83,16 @@ class Route {
                 break;
             }
         }
-        if (!$isMatched)
-            http_response_code(404);
+        if (!$isMatched) {
+            if (static::$defaultRoute)
+                static::$defaultRoute->invoke();
+            else
+                http_response_code(404);
+        }
+    }
+
+    public static function default(array|callable $callback) {
+        static::$defaultRoute = new RouteItem("*", "ANY", $callback);
     }
 
     public static function go(string $routerName, array $args=[]) {
