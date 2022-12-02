@@ -13,35 +13,38 @@ Aplikasi musik berbasis web yang dijalankan menggunakan sebuah DBMS MySQL dan PH
 
 -   Pastikan telah menginstal docker, dapat diunduh secara bebas melalui internet
 -   Clone repository dan ekstrasi
--   Rename file `.env.example` menjadi `.env`
+-   Rename file `.env.example` menjadi `.env`, lakukan konfigurasi ulang jika diperlukan
 
 ## Cara menjalankan server
 
 -   Arahkan ke folder hasil ekstraksi
--   Jalankan perintah `docker compose --build -d` melalui terminal
+-   Jalankan perintah `docker compose up --build -d` melalui terminal
 
 ## Screenshot tampilan aplikasi
+
 Halaman Register
-![image.png](./image.png)
+![image.png](./img/image.png)
 Halaman Login
-![image-1.png](./image-1.png)
+![image-1.png](./img/image-1.png)
 Halaman Home
-![image-2.png](./image-2.png)
+![image-2.png](./img/image-2.png)
 Halaman Detail Lagu
-![image-3.png](./image-3.png)
+![image-3.png](./img/image-3.png)
 Halaman Tambah Lagu
-![image-4.png](./image-4.png)
+![image-4.png](./img/image-4.png)
 Halaman Tambah Album
-![image-5.png](./image-5.png)
+![image-5.png](./img/image-5.png)
 
 ## Penjelasan mengenai pembagian tugas masing-masing anggota
 
 Server-side:
-User: 13520103
-Album: 13520108
-Lagu: 13520135
+
+-   User: 13520103
+-   Album: 13520018
+-   Lagu: 13520135
 
 Client-side:
-User: 13520103
-Album: 13520108
-Lagu: 13520135
+
+-   User: 13520103
+-   Album: 13520018
+-   Lagu: 13520135
