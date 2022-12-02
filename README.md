@@ -34,6 +34,8 @@ Halaman Tambah Lagu
 ![image-4.png](./img/image-4.png)
 Halaman Tambah Album
 ![image-5.png](./img/image-5.png)
+Halaman Daftar User
+![image-6.png](./img/image-6.png)
 
 ## Penjelasan mengenai pembagian tugas masing-masing anggota
 
