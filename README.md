@@ -44,17 +44,16 @@ Halaman Daftar User
 ## Penjelasan mengenai pembagian tugas masing-masing anggota
 
 Server-side:
-
 -   User: 13520103
 -   Album: 13520018
 -   Lagu: 13520135
 
 Client-side:
-
 -   User: 13520103
 -   Album: 13520018
 -   Lagu: 13520135
 
+Tambahan Binotify App:
 - Perubahan Database: 13520103
 - Halaman List Penyanyi Premium: 13520018
 - Halaman List Lagu Premium: 13520139, 13520018
