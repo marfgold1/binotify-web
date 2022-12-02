@@ -17,9 +17,13 @@ class PenyanyiController extends Controller {
         if (!has('user') || get('user')->isAdmin) {
             redirect('/');
         }
+        $subscriber_id = get('user')->user_id;
+        $url = "http://{$_ENV['REST_HOST']}/subscriptions/subscriber/{$subscriber_id}";
+        $listSubscribe = json_decode(file_get_contents($url), true);
+
         $url = "http://{$_ENV['REST_HOST']}/users/penyanyi";
         $listPenyanyi = json_decode(file_get_contents($url), true);
-        view('penyanyi.list-penyanyi', ['listPenyanyi' => $listPenyanyi]);
+        view('penyanyi.list-penyanyi', ['listPenyanyi' => $listPenyanyi, 'listSubscribe' => $listSubscribe]);
     }
 
     public function listLagu($penyanyi) {
@@ -69,6 +73,7 @@ class PenyanyiController extends Controller {
 
         back();
     }
+ 
 
 }
 ?>

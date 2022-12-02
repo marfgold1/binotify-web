@@ -49,13 +49,32 @@ use function MusicApp\Core\echoSidebar;
                         <tr class='track'>
                             <td class="track-text"><?= $i ?></td>
                             <td class='track-text'> <?= $penyanyi["name"] ?></td>
-                            <!-- ?php if ($listSubscribe.status = "ACCEPTED" OR "PENDING"): ?-->
-                            <td class='track-button'><button onclick=subscribe() id="unsubscribing" class="delete" id="unsubscribing">Unsubscribe</button></td>
-                            <td class='track-button'><button onclick="window.location.href='/penyanyi/<?= $penyanyi["user_id"] ?>'" class="delete">View Lagu</button></td>
-                            <!-- ?php else: ?
-                            <td><div class='track-button'><button onclick=subscribe() id="subscribing" class="delete">Subscribe</button></div></td>
-                            <td class="track-text">Belum Subscribe</td>-->
-                        </tr>
+                            <?php if ($listSubscribe):?>
+                                <?php foreach ($listSubscribe as $sub) : 
+                                 foreach ($sub as $subscriber) : ?>
+                                    
+                                    <form action="/penyanyi/<?= $penyanyi["user_id"]?>" method="post">
+                                <?php if ($subscriber["creator_id"] != $penyanyi["user_id"]) : ?> 
+                                <td class='track-button'><button type="submit" id="subscribe" onclick="">Subscribe</button></td>
+                                </form>
+                                    <?php else:
+                                        if ($subscriber["status"] == "PENDING") :?>
+                                            <td class='track-button'><button disabled id="subscribing" >Waiting</button></td>
+                                        <?php elseif ($subscriber["status"] == "ACCEPTED") :?>
+                                            <td class='track-button'><button disabled id="subscribed" >Subscribed</button></td>
+                                            <td class='track-button'><button type="button" onclick="window.location.href='/penyanyi/<?= $penyanyi["user_id"] ?>'">View Lagu</button></td>
+                                            <?php else: ?>
+                                            <td class='track-button'><button disabled id="unsubscribing" >Rejected</button></td>
+                                            <td class='track-button'><button disabled>Can't View</button></td>
+                                            <?php endif; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <form action="/penyanyi/<?= $penyanyi["user_id"]?>" method="post">
+                                <td class='track-button'><button type="submit" id="subscribe" onclick="">Subscribe</button></td>
+                                </form>
+                            <?php endif; ?>
                     <?php $i++;
                     endforeach; ?>
                 </tbody>
