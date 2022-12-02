@@ -14,7 +14,7 @@ use function MusicApp\Core\redirect;
 class PenyanyiController extends Controller {
 
     public function listPenyanyi() {
-        if (!has('user') || get('user')->role == 'admin') {
+        if (!has('user') || get('user')->isAdmin) {
             redirect('/');
         }
         $listPenyanyi = Song::find('penyanyi IS NOT NULL', [], 'ORDER BY penyanyi');
@@ -23,6 +23,9 @@ class PenyanyiController extends Controller {
     }
 
     public function listLagu($penyanyi) {
+        if (!has('user') || get('user')->isAdmin) {
+            redirect('/');
+        }
         $url = "http://host.docker.internal:3000/api/songs/" . $penyanyi;
         function curl_get_contents($url)
         {
