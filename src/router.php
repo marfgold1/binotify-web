@@ -17,6 +17,7 @@ use MusicApp\Core\Route;
 
 
 // Define routes here
+Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/user', [DaftarUserController::class, 'user'])->name('user');
 Route::get('/login', [AuthController::class, 'loginForm'])->name('auth.login');
