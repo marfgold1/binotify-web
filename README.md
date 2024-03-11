@@ -1,47 +1,44 @@
 # Binotify: Web App Music Player
 
-## Deskripsi aplikasi web
+## Description
 
 Monolithic PHP & Vanilla Web Application Music Player <br>
-Aplikasi musik berbasis web yang dijalankan menggunakan sebuah DBMS MySQL dan PHP murni beserta HTML, CSS, dan Javascript vanilla.
+A web-based music application operated using a pure MySQL DBMS and PHP along with HTML, CSS, and vanilla Javascript.
 
-## Daftar requirement
+## Requirements
 
 -   docker
 
-## Cara instalasi
+## Install
 
--   Pastikan telah menginstal docker, dapat diunduh secara bebas melalui internet
--   Clone repository dan ekstrasi
--   Rename file `.env.example` menjadi `.env`, lakukan konfigurasi ulang jika diperlukan
+- Ensure [Docker](https://docs.docker.com/engine/install/) is installed.
+- Clone the repository.
+- Rename the file `.env.example` to `.env`, reconfigure if necessary.
 
-## Cara menjalankan server
 
--   Arahkan ke folder hasil ekstraksi
--   Jalankan perintah `docker compose up --build -d` melalui terminal
+## Run
 
-## Screenshot tampilan aplikasi
+- Navigate to the project folder.
+- Run the command `docker compose up --build -d` via the terminal.
 
-Halaman List Penyanyi Premium
-![image-7.png](./img/image-7.png)
-Halaman List Lagu Premium
-![image-8.png](./img/image-8.png)
-Halaman Register
+## Screenshots
+
+Register
 ![image.png](./img/image.png)
-Halaman Login
+Login
 ![image-1.png](./img/image-1.png)
-Halaman Home
+Home
 ![image-2.png](./img/image-2.png)
-Halaman Detail Lagu
+Detail Lagu
 ![image-3.png](./img/image-3.png)
-Halaman Tambah Lagu
+Tambah Lagu
 ![image-4.png](./img/image-4.png)
-Halaman Tambah Album
+Tambah Album
 ![image-5.png](./img/image-5.png)
-Halaman Daftar User
+Daftar User
 ![image-6.png](./img/image-6.png)
 
-## Penjelasan mengenai pembagian tugas masing-masing anggota
+## Contributor
 
 Server-side:
 -   User: 13520103
@@ -53,8 +50,6 @@ Client-side:
 -   Album: 13520018
 -   Lagu: 13520135
 
-Tambahan Binotify App:
-- Perubahan Database: 13520103
-- Halaman List Penyanyi Premium: 13520018
-- Halaman List Lagu Premium: 13520139, 13520018
+Additional Binotify App:
+- DB Update: 13520103
 - Endpoint Callback: 13520103
